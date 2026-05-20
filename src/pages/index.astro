@@ -5,11 +5,8 @@ import SearchBar from '../components/SearchBar.tsx';
 import { fetchWordData, getAllSeedWords } from '../lib/etymology';
 import '../styles/global.css';
 
-// Pre-render a few featured words
 const featuredWords = ['philosophy', 'muscle', 'salary'];
-const featuredData = await Promise.all(
-  featuredWords.map(w => fetchWordData(w))
-);
+const featuredData = await Promise.all(featuredWords.map(w => fetchWordData(w)));
 ---
 
 <html lang="en">
@@ -19,98 +16,141 @@ const featuredData = await Promise.all(
   <title>Rootword · Every word has ancestors</title>
   <meta name="description" content="A visual etymology explorer. Type any English word and watch its ancient roots grow into a beautiful ancestral tree." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 </head>
-<body class="bg-[#0E0D0A] text-[#EDE0C4] min-h-screen flex flex-col relative bg-grid">
+<body class="min-h-screen flex flex-col relative bg-grid noise-overlay">
 
   <Nav />
 
-  <main class="flex-1 flex flex-col items-center justify-center px-6 py-16 max-w-5xl mx-auto z-10">
-    
-    <!-- Hero Logo -->
-    <div class="text-center mb-12 select-none">
-      <h1 class="text-6xl sm:text-7xl font-serif font-semibold text-[#C4973A] tracking-wider mb-4 animate-fade-in">
-        Root<span class="text-[#EDE0C4]">word</span>
+  <!-- Radial background glow -->
+  <div class="fixed inset-0 pointer-events-none z-0" style="background: radial-gradient(ellipse 80% 60% at 50% -10%, rgba(212,168,67,0.08) 0%, transparent 70%);" />
+
+  <main class="flex-1 flex flex-col items-center justify-center px-6 py-20 max-w-5xl mx-auto w-full z-10 relative">
+
+    <!-- Hero -->
+    <div class="text-center mb-14 select-none animate-fade-in-up">
+      <div class="inline-flex items-center gap-2 px-3 py-1 bg-[#1A1710] border border-[#3A3525] rounded-full text-[10px] font-mono text-[#D4A843] mb-6 tracking-widest uppercase">
+        <span class="w-1 h-1 rounded-full bg-[#D4A843] inline-block pulse-gold"></span>
+        Visual Etymology Explorer
+      </div>
+
+      <h1 class="text-6xl sm:text-8xl font-serif font-semibold tracking-tight mb-5 leading-none">
+        <span class="text-[#D4A843]" style="text-shadow: 0 0 40px rgba(212,168,67,0.4), 0 0 80px rgba(212,168,67,0.15);">Root</span><span class="text-[#F0E6CC]">word</span>
       </h1>
-      <p class="text-sm sm:text-base font-mono text-[#8A7D5E] tracking-widest uppercase">
+
+      <p class="text-base sm:text-lg font-serif italic text-[#C4AD82] mb-2">
         Every word has ancestors.
+      </p>
+      <p class="text-xs font-mono text-[#7A6E54] tracking-wider">
+        Type any English word · Watch its tree grow
       </p>
     </div>
 
-    <!-- Search Box Console -->
-    <div class="w-full flex justify-center mb-6">
-      <SearchBar client:load placeholder="type any English word..." />
+    <!-- Search -->
+    <div class="w-full flex justify-center mb-5 animate-fade-in-up" style="animation-delay: 0.1s;">
+      <SearchBar client:load placeholder="type any English word…" />
     </div>
 
-    <!-- Rotating terms ticker -->
-    <div class="h-6 mb-16 flex items-center justify-center font-mono text-xs text-[#4A4030] gap-2 select-none">
+    <!-- Suggestions ticker -->
+    <div class="h-7 mb-16 flex items-center justify-center font-mono text-xs text-[#7A6E54] gap-2 select-none animate-fade-in" style="animation-delay: 0.2s;">
       <span>try:</span>
-      <span id="ticker-word" class="text-[#C4973A] font-medium transition-all duration-300 opacity-100 italic">philosophy</span>
+      <span id="ticker-word" class="text-[#D4A843] font-medium transition-all duration-300 italic">philosophy</span>
     </div>
 
-    <!-- Featured Words Section -->
-    <div class="w-full">
-      <h3 class="text-center text-xs font-mono text-[#4A4030] uppercase tracking-widest mb-8">
-        Featured Ancestries
-      </h3>
-      
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-        {featuredData.map((data) => data && (
-          <a 
-            href={`/explore/${data.word}`} 
-            class="bg-[#1A1810] border border-[#2E2B22] hover:border-[#C4973A] p-6 rounded flex flex-col justify-between text-left transition-aesthetic parchment-glow parchment-glow-hover group"
+    <!-- Featured Words -->
+    <div class="w-full animate-fade-in-up" style="animation-delay: 0.25s;">
+      <div class="flex items-center gap-4 mb-8">
+        <div class="flex-1 h-px bg-gradient-to-r from-transparent via-[#3A3525] to-transparent"></div>
+        <h3 class="text-[11px] font-mono text-[#7A6E54] uppercase tracking-[0.2em]">Featured Ancestries</h3>
+        <div class="flex-1 h-px bg-gradient-to-r from-transparent via-[#3A3525] to-transparent"></div>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+        {featuredData.map((data, i) => data && (
+          <a
+            href={`/explore/${data.word}`}
+            class="group bg-[#161410] border border-[#2E2A1C] hover:border-[#D4A843]/60 rounded-xl p-6 flex flex-col transition-all duration-300 parchment-glow parchment-glow-hover card-shadow"
+            style={`animation-delay: ${0.3 + i * 0.08}s`}
           >
-            <div>
-              <div class="flex justify-between items-start mb-3">
-                <h4 class="text-xl font-serif font-medium text-[#EDE0C4] capitalize group-hover:text-[#C4973A] transition-colors">
-                  {data.word}
-                </h4>
-                <span class="text-[10px] font-mono text-[#8A7D5E] border border-[#2E2B22] px-1.5 py-0.5 bg-[#0E0D0A] rounded">
-                  {data.ipa}
-                </span>
-              </div>
-              <p class="text-xs font-serif italic text-[#8A7D5E] line-clamp-3 mb-6 leading-relaxed">
-                &ldquo;{data.definition}&rdquo;
-              </p>
+            <!-- Top row -->
+            <div class="flex justify-between items-start mb-3">
+              <h4 class="text-xl font-serif font-semibold text-[#F0E6CC] capitalize group-hover:text-[#D4A843] transition-colors duration-200">
+                {data.word}
+              </h4>
+              <span class="text-[10px] font-mono text-[#7A6E54] border border-[#2E2A1C] px-2 py-0.5 bg-[#0C0B09] rounded-md shrink-0 ml-2">
+                {data.ipa}
+              </span>
             </div>
-            
-            <div class="flex items-center justify-between border-t border-[#181614] pt-4 text-[10px] font-mono text-[#4A4030] group-hover:text-[#8A7D5E] transition-colors">
-              <span>{data.rootDepth} generations</span>
-              <span>explore ➜</span>
+
+            <!-- Definition -->
+            <p class="text-sm font-serif italic text-[#C4AD82] line-clamp-3 mb-5 leading-relaxed flex-1">
+              &ldquo;{data.definition.replace(/<[^>]*>/g, '').slice(0, 120)}&rdquo;
+            </p>
+
+            <!-- Language path pills -->
+            <div class="flex flex-wrap gap-1.5 mb-5">
+              {data.languagePath.slice(0, 4).map(lang => (
+                <span class="text-[9px] font-mono px-2 py-0.5 rounded-full border border-[#2E2A1C] text-[#7A6E54] bg-[#0C0B09]">
+                  {lang.replace(/-/g, ' ')}
+                </span>
+              ))}
+            </div>
+
+            <!-- Footer -->
+            <div class="flex items-center justify-between border-t border-[#1E1B14] pt-4 text-[10px] font-mono">
+              <span class="text-[#7A6E54]">{data.rootDepth} generations deep</span>
+              <span class="text-[#D4A843] group-hover:translate-x-1 transition-transform duration-200">explore →</span>
             </div>
           </a>
         ))}
       </div>
     </div>
 
+    <!-- Bottom feature strips -->
+    <div class="w-full mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 animate-fade-in" style="animation-delay: 0.5s;">
+      {[
+        { icon: '🌳', title: 'Ancestral Trees', desc: 'Watch roots branch across millennia in an interactive D3 visualization.' },
+        { icon: '🗺', title: 'Language Paths', desc: 'Trace how words migrated through Latin, French, Greek, and Proto-languages.' },
+        { icon: '✶', title: 'Reconstructed Roots', desc: 'Asterisk-marked nodes show linguistically reconstructed prehistoric forms.' },
+      ].map(f => (
+        <div class="flex gap-4 items-start p-5 rounded-xl bg-[#161410] border border-[#2E2A1C]">
+          <span class="text-2xl shrink-0 mt-0.5">{f.icon}</span>
+          <div>
+            <div class="text-sm font-serif font-semibold text-[#F0E6CC] mb-1">{f.title}</div>
+            <div class="text-xs font-mono text-[#7A6E54] leading-relaxed">{f.desc}</div>
+          </div>
+        </div>
+      ))}
+    </div>
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-[#181614] py-8 text-center text-[10px] font-mono text-[#4A4030] select-none mt-auto">
+  <footer class="border-t border-[#1E1B14] py-8 text-center text-[10px] font-mono text-[#4A4530] select-none mt-auto relative z-10">
     <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p>© 2026 Rootword. MIT License. Built with Astro, React, D3.js, & Tailwind CSS v4.</p>
-      <div class="flex gap-4">
-        <a href="/languages" class="hover:text-[#8A7D5E] transition-colors">language browser</a>
-        <span>•</span>
-        <a href="https://github.com/yourusername/rootword" class="hover:text-[#8A7D5E] transition-colors">github contributors</a>
+      <p class="text-[#5A5438]">© 2026 Rootword · MIT License · Built with Astro, React, D3.js & Tailwind CSS v4</p>
+      <div class="flex gap-5">
+        <a href="/languages" class="hover:text-[#C4AD82] transition-colors">language browser</a>
+        <span class="text-[#2E2A1C]">·</span>
+        <a href="https://github.com/yourusername/rootword" class="hover:text-[#C4AD82] transition-colors">github</a>
       </div>
     </div>
   </footer>
 
-  <!-- Inline script for dynamic ticker example rotating terms -->
   <script is:inline>
-    const words = ["philosophy", "serendipity", "muscle", "tragedy", "window", "salary"];
+    const words = ["philosophy", "serendipity", "muscle", "tragedy", "window", "salary", "paradise", "academy"];
     let idx = 0;
     const el = document.getElementById("ticker-word");
     if (el) {
       setInterval(() => {
         el.style.opacity = "0";
+        el.style.transform = "translateY(-6px)";
         setTimeout(() => {
           idx = (idx + 1) % words.length;
           el.textContent = words[idx];
           el.style.opacity = "1";
-        }, 300);
-      }, 3500);
+          el.style.transform = "translateY(0)";
+        }, 280);
+      }, 3200);
     }
   </script>
 
