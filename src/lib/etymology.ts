@@ -95,7 +95,14 @@ export async function fetchWordData(word: string): Promise<WordData | null> {
           const firstEntry = enEntries[0];
           partOfSpeech = firstEntry.partOfSpeech.toLowerCase();
           if (firstEntry.definitions && firstEntry.definitions.length > 0) {
-            definition = firstEntry.definitions[0].definition.replace(/<[^>]*>/g, '');
+            // Strip HTML tags AND any leaked CSS rules from Wiktionary
+            definition = firstEntry.definitions[0].definition
+              .replace(/<style[^>]*>[\s\S]*?<\/style>/gi, '')
+              .replace(/<[^>]*>/g, '')
+              .replace(/\.mw-[\w-]+[^{]*\{[^}]*\}/g, '')
+              .replace(/\{[^}]+\}/g, '')
+              .replace(/\s+/g, ' ')
+              .trim();
           }
           hasDefinition = true;
         }
@@ -185,41 +192,70 @@ export async function fetchWordData(word: string): Promise<WordData | null> {
         if (!tree) {
           const summaryText = htmlText.toLowerCase();
           const children: EtymNode[] = [];
+          // Use only the first word as the stem to avoid "*thank youus" style bugs
+          const stem = normalized.split(/\s+/)[0];
+
+          // Try to extract Middle English / Old English forms from the etymology text
+          const meMatch = htmlText.match(/[Ff]rom (?:Middle English )([\w]+)/);
+          const oeMatch = htmlText.match(/[Ff]rom (?:Old English )([\w]+)/);
+          const meForm = meMatch ? meMatch[1] : null;
+          const oeForm = oeMatch ? oeMatch[1] : null;
 
           if (summaryText.includes('latin') || summaryText.includes('roman')) {
             languagePath.push('latin');
-            children.push({
-              id: `${normalized}-la`,
-              word: `*${normalized}us`,
-              language: 'latin',
-              era: 'Classical Latin',
-              meaning: 'attested ancestral form',
-              isReconstructed: false,
-              children: [
-                {
-                  id: `${normalized}-pie`,
-                  word: `*${normalized}-`,
-                  language: 'proto-indo-european',
-                  meaning: 'ancestral root',
-                  isReconstructed: true,
-                  children: [],
-                },
-              ],
-            });
+            // Add Middle English intermediary if found
+            const latChildren: EtymNode[] = [{
+              id: `${normalized}-pie`,
+              word: `*${stem}-`,
+              language: 'proto-indo-european',
+              meaning: 'reconstructed ancestral root',
+              isReconstructed: true,
+              children: [],
+            }];
+            if (oeForm) {
+              languagePath.push('old-english');
+              children.push({
+                id: `${normalized}-oe`,
+                word: oeForm,
+                language: 'old-english',
+                era: 'Old English',
+                meaning: 'attested Old English form',
+                isReconstructed: false,
+                children: [{
+                  id: `${normalized}-la`,
+                  word: stem,
+                  language: 'latin',
+                  era: 'Classical Latin',
+                  meaning: 'Latin source form',
+                  isReconstructed: false,
+                  children: latChildren,
+                }],
+              });
+            } else {
+              children.push({
+                id: `${normalized}-la`,
+                word: stem,
+                language: 'latin',
+                era: 'Classical Latin',
+                meaning: 'attested Latin form',
+                isReconstructed: false,
+                children: latChildren,
+              });
+            }
             languagePath.push('proto-indo-european');
           } else if (summaryText.includes('greek') || summaryText.includes('hellenic')) {
             languagePath.push('ancient-greek');
             children.push({
               id: `${normalized}-gk`,
-              word: normalized,
+              word: stem,
               language: 'ancient-greek',
               era: 'Ancient Greek',
-              meaning: 'ancient greek origin',
+              meaning: 'ancient Greek origin',
               isReconstructed: false,
               children: [
                 {
                   id: `${normalized}-pgk`,
-                  word: `*${normalized}`,
+                  word: `*${stem}-`,
                   language: 'proto-greek',
                   meaning: 'reconstructed Hellenic root',
                   isReconstructed: true,
@@ -232,38 +268,86 @@ export async function fetchWordData(word: string): Promise<WordData | null> {
             languagePath.push('old-french');
             children.push({
               id: `${normalized}-of`,
-              word: normalized,
+              word: stem,
               language: 'old-french',
               era: 'Old French',
-              meaning: 'Anglo-Norman transition form',
+              meaning: 'Anglo-Norman form',
               isReconstructed: false,
               children: [
                 {
                   id: `${normalized}-la`,
-                  word: normalized,
+                  word: stem,
                   language: 'latin',
-                  meaning: 'classical root',
+                  era: 'Classical Latin',
+                  meaning: 'classical Latin root',
                   isReconstructed: false,
-                  children: [],
+                  children: [{
+                    id: `${normalized}-pie`,
+                    word: `*${stem}-`,
+                    language: 'proto-indo-european',
+                    meaning: 'reconstructed root',
+                    isReconstructed: true,
+                    children: [],
+                  }],
                 },
               ],
             });
             languagePath.push('latin');
-          } else if (summaryText.includes('germanic') || summaryText.includes('german') || summaryText.includes('norse')) {
+            languagePath.push('proto-indo-european');
+          } else if (summaryText.includes('germanic') || summaryText.includes('german') || summaryText.includes('norse') || summaryText.includes('old english') || summaryText.includes('anglo-saxon') || summaryText.includes('middle english')) {
             languagePath.push('proto-germanic');
-            children.push({
-              id: `${normalized}-pg`,
-              word: `*${normalized}`,
-              language: 'proto-germanic',
-              meaning: 'reconstructed West Germanic form',
+            const pgmcChildren: EtymNode[] = [{
+              id: `${normalized}-pie`,
+              word: `*${stem}-`,
+              language: 'proto-indo-european',
+              meaning: 'reconstructed Proto-Indo-European root',
               isReconstructed: true,
               children: [],
-            });
+            }];
+            const pgmcNode: EtymNode = {
+              id: `${normalized}-pg`,
+              word: `*${stem}ijaną`,
+              language: 'proto-germanic',
+              era: 'Proto-Germanic',
+              meaning: 'reconstructed Proto-Germanic form',
+              isReconstructed: true,
+              children: pgmcChildren,
+            };
+            if (meForm || oeForm) {
+              const oeNode: EtymNode = {
+                id: `${normalized}-oe`,
+                word: oeForm || stem,
+                language: 'old-english',
+                era: 'Old English',
+                meaning: 'attested Old English form',
+                isReconstructed: false,
+                children: [pgmcNode],
+              };
+              if (meForm) {
+                languagePath.push('old-english');
+                languagePath.push('middle-english');
+                children.push({
+                  id: `${normalized}-me`,
+                  word: meForm,
+                  language: 'middle-english',
+                  era: 'Middle English',
+                  meaning: 'attested Middle English form',
+                  isReconstructed: false,
+                  children: [oeNode],
+                });
+              } else {
+                languagePath.push('old-english');
+                children.push(oeNode);
+              }
+            } else {
+              children.push(pgmcNode);
+            }
+            languagePath.push('proto-indo-european');
           } else {
             languagePath.push('unknown');
             children.push({
               id: `${normalized}-anc`,
-              word: `*${normalized}`,
+              word: `*${stem}-`,
               language: 'unknown',
               meaning: 'ancestral source root',
               isReconstructed: true,
@@ -272,14 +356,14 @@ export async function fetchWordData(word: string): Promise<WordData | null> {
           }
 
           languagePath.reverse();
-          languagePath.push('english');
+          if (!languagePath.includes('english')) languagePath.push('english');
 
           tree = {
             id: `${normalized}-en`,
             word: word,
             language: 'english',
             era: 'Modern English',
-            meaning: 'current form and definition',
+            meaning: definition,
             isReconstructed: false,
             children: children,
           };
