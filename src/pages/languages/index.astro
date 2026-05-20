@@ -4,6 +4,7 @@ import Nav from '../../components/Nav.astro';
 import { fetchWordData, getAllSeedWords } from '../../lib/etymology';
 import { LANGUAGE_DEFS, type LanguageDef } from '../../lib/languages';
 import type { LanguageFamily } from '../../types/etymology';
+import '../../styles/global.css';
 
 const seedWords = getAllSeedWords();
 const seedsData = await Promise.all(
