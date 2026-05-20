@@ -4,121 +4,133 @@ import type { LanguageFamily } from '../types/etymology';
 export interface LanguageDef {
   name: string;
   family: string;
-  fill: string;
-  stroke: string;
-  text: string;
+  fill: string;      // node background
+  stroke: string;    // node border / glow
+  text: string;      // label text color
+  glow: string;      // drop-shadow color
   description: string;
 }
 
-// Each language has a VISUALLY DISTINCT fill + stroke so tree nodes are clearly readable
 export const LANGUAGE_DEFS: Record<LanguageFamily, LanguageDef> = {
   'english': {
     name: 'Modern English',
     family: 'Germanic',
-    fill: '#2A2010',
-    stroke: '#D4A843',
-    text: '#F0E6CC',
+    fill: '#1E1A08',
+    stroke: '#F0B840',
+    text: '#FFF0C0',
+    glow: 'rgba(240,184,64,0.55)',
     description: 'The contemporary West Germanic language spoken globally today.',
   },
   'middle-english': {
     name: 'Middle English',
     family: 'Germanic',
-    fill: '#24200E',
-    stroke: '#B8922E',
-    text: '#E0D0A0',
+    fill: '#1C1908',
+    stroke: '#D4A030',
+    text: '#EEE090',
+    glow: 'rgba(212,160,48,0.45)',
     description: 'Spoken from the Norman Conquest (1066) until the late 15th century.',
   },
   'old-english': {
     name: 'Old English',
     family: 'Germanic',
-    fill: '#1E1C0E',
-    stroke: '#9A7A24',
-    text: '#CCB878',
-    description: 'Also known as Anglo-Saxon; spoken in England from the 5th to 11th centuries.',
+    fill: '#18160A',
+    stroke: '#B08020',
+    text: '#D8C070',
+    glow: 'rgba(176,128,32,0.40)',
+    description: 'Anglo-Saxon; spoken in England from the 5th to 11th centuries.',
   },
   'old-french': {
     name: 'Old French',
     family: 'Romance',
-    fill: '#0E1E10',
-    stroke: '#4EA848',
-    text: '#A0D8A0',
-    description: 'The Romance dialect spoken in France from the 8th–14th centuries.',
+    fill: '#081A10',
+    stroke: '#30D880',
+    text: '#90FFB8',
+    glow: 'rgba(48,216,128,0.45)',
+    description: 'Romance dialect spoken in France from the 8th–14th centuries.',
   },
   'latin': {
     name: 'Classical Latin',
     family: 'Italic',
-    fill: '#0C1C0C',
-    stroke: '#3E9A34',
-    text: '#90CC88',
+    fill: '#081808',
+    stroke: '#28C068',
+    text: '#80F0A0',
+    glow: 'rgba(40,192,104,0.45)',
     description: 'The classical language of the Roman Empire.',
   },
   'medieval-latin': {
     name: 'Medieval Latin',
     family: 'Italic',
-    fill: '#0C1C0C',
-    stroke: '#3E9A34',
-    text: '#90CC88',
-    description: 'Latin used in medieval Catholic church, administration and science.',
+    fill: '#081808',
+    stroke: '#28C068',
+    text: '#80F0A0',
+    glow: 'rgba(40,192,104,0.45)',
+    description: 'Latin used in medieval church, administration, and science.',
   },
   'ancient-greek': {
     name: 'Ancient Greek',
     family: 'Hellenic',
-    fill: '#0A0E20',
-    stroke: '#4A72D8',
-    text: '#A0B8F0',
-    description: 'Spoken in ancient Greece from the 9th century BCE to the 6th century CE.',
+    fill: '#080C20',
+    stroke: '#60A8FF',
+    text: '#B0D0FF',
+    glow: 'rgba(96,168,255,0.50)',
+    description: 'Spoken in ancient Greece from the 9th century BCE.',
   },
   'proto-greek': {
     name: 'Proto-Greek ✶',
     family: 'Hellenic',
-    fill: '#080C1A',
-    stroke: '#2E4EA0',
-    text: '#7898CC',
+    fill: '#080A18',
+    stroke: '#3870D0',
+    text: '#8898E0',
+    glow: 'rgba(56,112,208,0.40)',
     description: 'The reconstructed common ancestor of all Greek dialects.',
   },
   'proto-germanic': {
     name: 'Proto-Germanic ✶',
     family: 'Germanic',
-    fill: '#1A1408',
-    stroke: '#8A7030',
-    text: '#C0A860',
+    fill: '#180E08',
+    stroke: '#C08040',
+    text: '#E8B870',
+    glow: 'rgba(192,128,64,0.40)',
     description: 'Reconstructed ancestor of all Germanic languages.',
   },
   'proto-indo-european': {
     name: 'Proto-Indo-European ✶',
     family: 'Indo-European',
-    fill: '#1A0E08',
-    stroke: '#A04E28',
-    text: '#D08A60',
-    description: 'The reconstructed ancestor of all Indo-European language families.',
+    fill: '#180808',
+    stroke: '#E05040',
+    text: '#FF9888',
+    glow: 'rgba(224,80,64,0.45)',
+    description: 'The reconstructed ancestor of all Indo-European families.',
   },
   'arabic': {
     name: 'Arabic',
     family: 'Semitic',
-    fill: '#120C1C',
-    stroke: '#7848B0',
-    text: '#C098E0',
+    fill: '#0E0818',
+    stroke: '#B878F0',
+    text: '#D8A8FF',
+    glow: 'rgba(184,120,240,0.45)',
     description: 'A Semitic language from the Arabian Peninsula.',
   },
   'old-norse': {
     name: 'Old Norse',
     family: 'Germanic',
-    fill: '#0A1410',
-    stroke: '#28784A',
-    text: '#78C8A0',
-    description: 'North Germanic language of Scandinavia and its settlements.',
+    fill: '#081410',
+    stroke: '#28D0A8',
+    text: '#78F0D0',
+    glow: 'rgba(40,208,168,0.45)',
+    description: 'North Germanic language of Scandinavia.',
   },
   'unknown': {
     name: 'Unknown Origin',
     family: 'Unknown',
-    fill: '#181818',
-    stroke: '#585450',
-    text: '#989490',
+    fill: '#101018',
+    stroke: '#606880',
+    text: '#A0A8B8',
+    glow: 'rgba(96,104,128,0.35)',
     description: 'Etymology unattested or lost to historical records.',
   },
 };
 
-export function formatLanguageLabel(lang: LanguageFamily, era?: string): string {
-  const def = LANGUAGE_DEFS[lang] ?? LANGUAGE_DEFS['unknown'];
-  return def.name;
+export function formatLanguageLabel(lang: LanguageFamily): string {
+  return LANGUAGE_DEFS[lang]?.name ?? 'Unknown';
 }

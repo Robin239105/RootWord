@@ -1,39 +1,34 @@
 ---
 // src/components/Nav.astro
 import { getAllSeedWords } from '../lib/etymology';
-
 const seedCount = getAllSeedWords().length;
 ---
 
-<header class="h-14 border-b border-[#2E2A1C] bg-[#0C0B09]/95 backdrop-blur-md px-6 flex items-center justify-between sticky top-0 z-50">
-  <!-- Left: Logo + Nav -->
+<header class="h-14 border-b border-[#1E2848] bg-[#06080F]/95 backdrop-blur-xl px-6 flex items-center justify-between sticky top-0 z-50">
   <div class="flex items-center gap-8">
-    <a href="/" class="text-xl font-serif font-semibold tracking-wide hover:opacity-90 transition-opacity flex items-center gap-0.5">
-      <span class="text-[#D4A843]">Root</span><span class="text-[#F0E6CC]">word</span>
+    <a href="/" class="text-xl font-display font-bold tracking-tight flex items-center gap-px hover:opacity-90 transition-opacity">
+      <span style="background: linear-gradient(135deg,#F0B840,#FFD878); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">Root</span><span class="text-[#EEF2FF]">word</span>
     </a>
 
-    <nav class="hidden md:flex items-center gap-6 text-xs font-mono text-[#7A6E54]">
-      <a href="/languages" class="hover:text-[#F0E6CC] transition-colors duration-200 flex items-center gap-1.5">
-        <span class="text-[#D4A843] text-[9px]">◈</span> languages
+    <nav class="hidden md:flex items-center gap-6 text-[11px] font-mono text-[#3D5480]">
+      <a href="/languages" class="hover:text-[#8BA4CC] transition-colors duration-200 flex items-center gap-1.5">
+        <span class="text-[#3DDBA0] opacity-70">◈</span> languages
       </a>
-      <a href="/explore/philosophy" class="hover:text-[#F0E6CC] transition-colors duration-200 flex items-center gap-1.5">
-        <span class="text-[#D4A843] text-[9px]">◈</span> explore
+      <a href="/explore/philosophy" class="hover:text-[#8BA4CC] transition-colors duration-200 flex items-center gap-1.5">
+        <span class="text-[#60A8FF] opacity-70">◈</span> demo
       </a>
     </nav>
   </div>
 
-  <!-- Right: Status + GitHub -->
-  <div class="flex items-center gap-3 text-xs font-mono">
-    <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-[#1A1710] border border-[#3A3525] rounded-full text-[#C4AD82]">
-      <span class="w-1.5 h-1.5 rounded-full bg-[#D4A843] pulse-gold"></span>
+  <div class="flex items-center gap-3 text-[11px] font-mono">
+    <div class="hidden sm:flex items-center gap-2 px-3 py-1.5 bg-[#0B0E1A] border border-[#1E2848] rounded-full text-[#8BA4CC]">
+      <span class="w-1.5 h-1.5 rounded-full bg-[#3DDBA0] pulse-ring"></span>
       <span>{seedCount} seeds curated</span>
     </div>
-
     <a
       href="https://github.com/yourusername/rootword"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="text-[#C4AD82] hover:text-[#F0E6CC] border border-[#3A3525] hover:border-[#D4A843] rounded-md px-3 py-1.5 transition-all duration-200 bg-[#1A1710] hover:bg-[#1E1B14]"
+      target="_blank" rel="noopener noreferrer"
+      class="text-[#8BA4CC] hover:text-[#EEF2FF] border border-[#1E2848] hover:border-[#F0B840]/50 rounded-lg px-3 py-1.5 bg-[#0B0E1A] hover:bg-[#111830] transition-all duration-200"
     >
       github
     </a>

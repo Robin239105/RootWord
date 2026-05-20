@@ -4,279 +4,454 @@
 import { useEffect, useRef, useState, useCallback } from 'react';
 import * as d3 from 'd3';
 import type { EtymNode, WordData } from '../types/etymology';
-import { LANGUAGE_DEFS, formatLanguageLabel } from '../lib/languages';
+import { LANGUAGE_DEFS } from '../lib/languages';
 import NodeTooltip from './NodeTooltip';
 
-interface Props {
-  data: WordData;
+interface Props { data: WordData; }
+
+/* ─── Leaf shape path (centered at 0,0) ───────────────────────────────── */
+function leafPath(w: number, h: number): string {
+  const hw = w / 2, hh = h / 2;
+  // Pointed top & bottom, widest in middle — classic leaf silhouette
+  return [
+    `M 0,${-hh}`,
+    `C ${hw * 0.6},${-hh} ${hw},${-hh * 0.4} ${hw},0`,
+    `C ${hw},${hh * 0.4} ${hw * 0.6},${hh} 0,${hh}`,
+    `C ${-hw * 0.6},${hh} ${-hw},${hh * 0.4} ${-hw},0`,
+    `C ${-hw},${-hh * 0.4} ${-hw * 0.6},${-hh} 0,${-hh}`,
+    'Z',
+  ].join(' ');
 }
 
-const NODE_W = 160;
-const NODE_H = 52;
-const MARGIN = { top: 70, right: 80, bottom: 70, left: 80 };
-const SVG_HEIGHT = 520;
+/* ─── Trunk / root hexagon (for the searched word) ───────────────────── */
+function hexPath(r: number): string {
+  const pts = Array.from({ length: 6 }, (_, i) => {
+    const a = (Math.PI / 3) * i - Math.PI / 6;
+    return `${r * Math.cos(a)},${r * Math.sin(a)}`;
+  });
+  return `M ${pts.join(' L ')} Z`;
+}
+
+/* ─── Tapered organic branch between two points ─────────────────────── */
+function branchPath(
+  sx: number, sy: number,
+  tx: number, ty: number,
+  w1: number, w2: number,
+): string {
+  // Midpoint control point for S-curve
+  const my = sy + (ty - sy) * 0.5;
+  const hw1 = w1 / 2, hw2 = w2 / 2;
+
+  // Left side: parent → child
+  const lx1 = sx - hw1, lx2 = tx - hw2;
+  const rx1 = sx + hw1, rx2 = tx + hw2;
+
+  return [
+    `M ${lx1},${sy}`,
+    `C ${lx1},${my} ${lx2},${my} ${lx2},${ty}`,
+    `L ${rx2},${ty}`,
+    `C ${rx2},${my} ${rx1},${my} ${rx1},${sy}`,
+    'Z',
+  ].join(' ');
+}
+
+const MARGIN = { top: 80, right: 100, bottom: 100, left: 100 };
+const SVG_H  = 560;
+const LEAF_W = 150;
+const LEAF_H = 52;
 
 export default function EtymologyTree({ data }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
-  const svgRef = useRef<SVGSVGElement>(null);
+  const svgRef       = useRef<SVGSVGElement>(null);
   const [selected, setSelected] = useState<EtymNode | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [err, setErr]           = useState<string | null>(null);
 
-  const drawTree = useCallback(() => {
-    if (!svgRef.current || !containerRef.current) return;
+  const draw = useCallback(() => {
+    if (!svgRef.current || !containerRef.current || !data?.tree) return;
+    setErr(null);
 
     try {
-      // Verify tree data exists and is valid
-      if (!data?.tree) {
-        setError('No etymology tree data available.');
-        return;
-      }
+      const cw   = containerRef.current.getBoundingClientRect().width || 700;
+      const W    = Math.max(cw, 480);
+      const H    = SVG_H;
+      const innerW = W - MARGIN.left - MARGIN.right;
+      const innerH = H - MARGIN.top  - MARGIN.bottom;
 
-      setError(null);
+      /* ── hierarchy ── */
+      const root = d3.hierarchy<EtymNode>(
+        data.tree,
+        d => (d.children?.length ? d.children : null),
+      );
+      const maxDepth = root.height || 1;
 
-      const containerWidth = containerRef.current.getBoundingClientRect().width;
-      const width = Math.max(containerWidth || 700, 500);
-      const height = SVG_HEIGHT;
-      const innerW = width - MARGIN.left - MARGIN.right;
-      const innerH = height - MARGIN.top - MARGIN.bottom;
-
-      // Build D3 hierarchy — children are ancestor branches
-      const root = d3.hierarchy<EtymNode>(data.tree, d => (d.children && d.children.length > 0 ? d.children : null));
-      const nodeCount = root.descendants().length;
-
-      // Tree layout — vertical (root at top, ancestors below)
       const treeLayout = d3.tree<EtymNode>()
         .size([innerW, innerH])
-        .separation((a, b) => (a.parent === b.parent ? 1.6 : 2.2));
-
+        .separation((a, b) => (a.parent === b.parent ? 1.8 : 2.4));
       treeLayout(root);
 
-      // Setup SVG — use explicit pixel height, NOT '100%'
+      /* ── flip Y so root is at BOTTOM (real tree) ── */
+      const flipY = (y: number) => innerH - y;
+
+      /* ── SVG setup ── */
       const svg = d3.select(svgRef.current);
       svg.selectAll('*').remove();
-      svg
-        .attr('viewBox', `0 0 ${width} ${height}`)
-        .attr('width', width)
-        .attr('height', height)
-        .style('display', 'block')
-        .style('overflow', 'visible');
+      svg.attr('viewBox', `0 0 ${W} ${H}`)
+         .attr('width', W)
+         .attr('height', H)
+         .style('display', 'block');
 
-      // Background subtle grid
+      /* ── Defs: gradients, filters, patterns ── */
       const defs = svg.append('defs');
-      const pattern = defs.append('pattern')
-        .attr('id', 'grid')
-        .attr('width', 40)
-        .attr('height', 40)
-        .attr('patternUnits', 'userSpaceOnUse');
-      pattern.append('path')
-        .attr('d', 'M 40 0 L 0 0 0 40')
-        .attr('fill', 'none')
-        .attr('stroke', '#1E1C16')
-        .attr('stroke-width', 0.5);
-      svg.append('rect')
-        .attr('width', width)
-        .attr('height', height)
-        .attr('fill', 'url(#grid)')
-        .attr('opacity', 0.6);
 
-      // Drop shadow filter
-      const filter = defs.append('filter').attr('id', 'node-shadow');
-      filter.append('feDropShadow')
-        .attr('dx', 0)
-        .attr('dy', 3)
-        .attr('stdDeviation', 6)
-        .attr('flood-color', '#000')
-        .attr('flood-opacity', 0.5);
+      // Bark gradient for trunk
+      const barkGrad = defs.append('linearGradient')
+        .attr('id', 'bark-grad').attr('x1','0%').attr('y1','0%').attr('x2','100%').attr('y2','0%');
+      barkGrad.append('stop').attr('offset','0%').attr('stop-color','#5A3C20');
+      barkGrad.append('stop').attr('offset','40%').attr('stop-color','#9A7050');
+      barkGrad.append('stop').attr('offset','100%').attr('stop-color','#6A4828');
 
+      // Drop shadow for leaves
+      const shadow = defs.append('filter').attr('id','leaf-shadow')
+        .attr('x','-30%').attr('y','-30%').attr('width','160%').attr('height','160%');
+      shadow.append('feDropShadow')
+        .attr('dx',0).attr('dy',3).attr('stdDeviation',6)
+        .attr('flood-color','#000').attr('flood-opacity',0.7);
+
+      // Glow filter for root node
+      const glow = defs.append('filter').attr('id','root-glow')
+        .attr('x','-50%').attr('y','-50%').attr('width','200%').attr('height','200%');
+      glow.append('feGaussianBlur').attr('in','SourceGraphic').attr('stdDeviation',8).attr('result','blur');
+      const glowMerge = glow.append('feMerge');
+      glowMerge.append('feMergeNode').attr('in','blur');
+      glowMerge.append('feMergeNode').attr('in','SourceGraphic');
+
+      // Per-language glow filters
+      root.descendants().forEach(d => {
+        const langDef = LANGUAGE_DEFS[d.data.language] ?? LANGUAGE_DEFS['unknown'];
+        const id = `glow-${d.data.language}`;
+        if (!defs.select(`#${id}`).node()) {
+          const f = defs.append('filter').attr('id', id)
+            .attr('x','-40%').attr('y','-40%').attr('width','180%').attr('height','180%');
+          f.append('feDropShadow')
+            .attr('dx',0).attr('dy',0).attr('stdDeviation',8)
+            .attr('flood-color', langDef.glow).attr('flood-opacity',1);
+        }
+      });
+
+      /* ── Background ── */
+      // Deep night sky feel
+      svg.append('rect').attr('width',W).attr('height',H).attr('fill','#06080F');
+
+      // Subtle dot-grid
+      const dotGrid = defs.append('pattern')
+        .attr('id','dot-grid').attr('width',32).attr('height',32)
+        .attr('patternUnits','userSpaceOnUse');
+      dotGrid.append('circle').attr('cx',16).attr('cy',16).attr('r',0.8)
+        .attr('fill','rgba(60,80,120,0.35)');
+      svg.append('rect').attr('width',W).attr('height',H).attr('fill','url(#dot-grid)');
+
+      /* ── Main group ── */
       const g = svg.append('g')
         .attr('transform', `translate(${MARGIN.left},${MARGIN.top})`);
 
-      // Draw links (curved connectors)
-      const linkGen = d3.linkVertical<d3.HierarchyPointLink<EtymNode>, d3.HierarchyPointNode<EtymNode>>()
-        .x(d => d.x)
-        .y(d => d.y);
+      /* ══════════════════════════════════════════
+         BRANCHES — tapered, organic bark-colored
+      ══════════════════════════════════════════ */
+      const links = root.links();
 
-      g.selectAll('.link')
-        .data(root.links())
-        .join('path')
-        .attr('class', 'link')
-        .attr('d', linkGen)
-        .attr('fill', 'none')
-        .attr('stroke', '#6A6040')
-        .attr('stroke-width', 1.8)
-        .attr('stroke-dasharray', d => d.target.data.isReconstructed ? '6,4' : 'none')
-        .attr('opacity', 0);
+      // Shadow pass first
+      g.selectAll('.branch-shadow')
+        .data(links).join('path').attr('class','branch-shadow')
+        .attr('d', d => {
+          const sx = d.source.x, sy = flipY(d.source.y!);
+          const tx = d.target.x,  ty = flipY(d.target.y!);
+          const depth = d.source.depth;
+          const w1 = Math.max(3, 18 - depth * 4.5);
+          const w2 = Math.max(2, 12 - d.target.depth * 4);
+          return branchPath(sx, sy, tx, ty, w1, w2);
+        })
+        .attr('fill','rgba(0,0,0,0.5)')
+        .attr('transform','translate(3,4)');
 
-      // Animate links in
-      g.selectAll('.link')
-        .transition()
-        .duration(600)
-        .delay((_, i) => i * 80)
-        .attr('opacity', 0.75);
-
-      // Draw node groups
-      const node = g.selectAll('.node')
-        .data(root.descendants())
-        .join('g')
-        .attr('class', 'node')
-        .attr('transform', d => `translate(${d.x},${d.y})`)
-        .style('cursor', 'pointer')
-        .on('click', (_, d) => setSelected(d.data));
-
-      // Node background rect
-      node.append('rect')
-        .attr('x', -NODE_W / 2)
-        .attr('y', -NODE_H / 2)
-        .attr('width', NODE_W)
-        .attr('height', NODE_H)
-        .attr('rx', 9)
+      // Bark fill pass
+      g.selectAll('.branch')
+        .data(links).join('path').attr('class','branch')
+        .attr('d', d => {
+          const sx = d.source.x, sy = flipY(d.source.y!);
+          const tx = d.target.x,  ty = flipY(d.target.y!);
+          const depth = d.source.depth;
+          const w1 = Math.max(3, 18 - depth * 4.5);
+          const w2 = Math.max(2, 12 - d.target.depth * 4);
+          return branchPath(sx, sy, tx, ty, w1, w2);
+        })
         .attr('fill', d => {
-          const def = LANGUAGE_DEFS[d.data.language] ?? LANGUAGE_DEFS['unknown'];
-          return def.fill;
+          const depth = d.source.depth;
+          if (depth === 0) return 'url(#bark-grad)';
+          return d3.interpolate('#7A5538', '#4A3020')(Math.min(depth / maxDepth, 1));
         })
-        .attr('stroke', d => {
-          const def = LANGUAGE_DEFS[d.data.language] ?? LANGUAGE_DEFS['unknown'];
-          return def.stroke;
-        })
-        .attr('stroke-width', d => d.depth === 0 ? 2.5 : 1.5)
-        .attr('stroke-dasharray', d => d.data.isReconstructed ? '6,4' : 'none')
-        .attr('filter', 'url(#node-shadow)')
-        .attr('opacity', 0);
-
-      // Animate node rects in
-      node.selectAll('rect')
-        .transition()
-        .duration(500)
-        .delay((_, i) => i * 60 + 200)
+        .attr('opacity', 0)
+        .transition().duration(600).delay((_, i) => i * 70)
         .attr('opacity', 1);
 
-      // Root node golden top ribbon
-      node.filter(d => d.depth === 0)
-        .append('rect')
-        .attr('x', -NODE_W / 2)
-        .attr('y', -NODE_H / 2)
-        .attr('width', NODE_W)
-        .attr('height', 3)
-        .attr('rx', 2)
-        .attr('fill', '#C4973A');
-
-      // Word label
-      node.append('text')
-        .attr('dy', '-0.15em')
-        .attr('text-anchor', 'middle')
-        .attr('dominant-baseline', 'middle')
-        .attr('font-size', d => d.depth === 0 ? 14.5 : 13)
-        .attr('font-weight', d => d.depth === 0 ? '600' : '400')
-        .attr('font-family', 'Lora, Georgia, serif')
-        .attr('fill', d => {
-          const def = LANGUAGE_DEFS[d.data.language] ?? LANGUAGE_DEFS['unknown'];
-          return def.text;
+      // Highlight line along branches
+      g.selectAll('.branch-line')
+        .data(links).join('path').attr('class','branch-line')
+        .attr('d', d => {
+          const sx = d.source.x, sy = flipY(d.source.y!);
+          const tx = d.target.x,  ty = flipY(d.target.y!);
+          const my = sy + (ty - sy) * 0.5;
+          return `M ${sx},${sy} C ${sx},${my} ${tx},${my} ${tx},${ty}`;
         })
-        .attr('pointer-events', 'none')
+        .attr('fill','none')
+        .attr('stroke','rgba(180,130,80,0.35)')
+        .attr('stroke-width', d => Math.max(0.5, 3 - d.source.depth * 0.7))
+        .attr('stroke-linecap','round')
+        .attr('pointer-events','none');
+
+      /* ══════════════════════════════════════════
+         BUDS — small circles at branch joints
+      ══════════════════════════════════════════ */
+      g.selectAll('.bud')
+        .data(root.descendants().filter(d => d.depth > 0 && (d.children?.length ?? 0) > 0))
+        .join('circle').attr('class','bud')
+        .attr('cx', d => d.x)
+        .attr('cy', d => flipY(d.y!))
+        .attr('r', d => Math.max(3, 8 - d.depth * 2))
+        .attr('fill', '#9A7050')
+        .attr('stroke','#C09060')
+        .attr('stroke-width',1);
+
+      /* ══════════════════════════════════════════
+         NODES — leaf shapes, language-colored
+      ══════════════════════════════════════════ */
+      const nodes = g.selectAll('.node')
+        .data(root.descendants())
+        .join('g').attr('class','node')
+        .attr('transform', d => `translate(${d.x},${flipY(d.y!)})`)
+        .style('cursor','pointer')
+        .on('click', (_, d) => setSelected(d.data));
+
+      // ── Root node (English word searched) — special hexagonal medallion ──
+      const rootNode = nodes.filter(d => d.depth === 0);
+
+      // Outer glow ring
+      rootNode.append('circle')
+        .attr('r', 52)
+        .attr('fill','none')
+        .attr('stroke', '#F0B840')
+        .attr('stroke-width', 1)
+        .attr('opacity', 0.25)
+        .attr('class','pulse-ring')
+        .style('animation','pulseRing 2.4s ease-in-out infinite');
+
+      rootNode.append('circle')
+        .attr('r', 44)
+        .attr('fill','none')
+        .attr('stroke', '#F0B840')
+        .attr('stroke-width', 0.5)
+        .attr('opacity', 0.15);
+
+      // Hex background
+      rootNode.append('path')
+        .attr('d', hexPath(38))
+        .attr('fill','#1E1A08')
+        .attr('stroke','#F0B840')
+        .attr('stroke-width', 2.5)
+        .attr('filter','url(#root-glow)')
+        .attr('opacity', 0)
+        .transition().duration(500).delay(400)
+        .attr('opacity', 1);
+
+      // Root word text
+      rootNode.append('text')
+        .attr('text-anchor','middle').attr('dy','-0.15em')
+        .attr('font-family','Lora, Georgia, serif')
+        .attr('font-size', 14).attr('font-weight', 600)
+        .attr('fill','#F0E0A0')
+        .attr('pointer-events','none')
         .text(d => {
           const w = d.data.word;
-          return w.length > 18 ? w.slice(0, 16) + '…' : w;
+          return w.length > 14 ? w.slice(0, 12) + '…' : w;
+        });
+
+      rootNode.append('text')
+        .attr('text-anchor','middle').attr('dy','1.2em')
+        .attr('font-family','JetBrains Mono, monospace')
+        .attr('font-size', 7.5).attr('fill','#B08830')
+        .attr('pointer-events','none')
+        .text('Modern English');
+
+      // ── Ancestor leaf nodes ──
+      const leafNodes = nodes.filter(d => d.depth > 0);
+
+      // Leaf shadow
+      leafNodes.append('path')
+        .attr('d', d => {
+          const w = d.depth === maxDepth ? LEAF_W * 0.85 : LEAF_W;
+          const h = d.depth === maxDepth ? LEAF_H * 0.85 : LEAF_H;
+          return leafPath(w, h);
+        })
+        .attr('fill','rgba(0,0,0,0.55)')
+        .attr('transform','translate(4,6)')
+        .attr('pointer-events','none');
+
+      // Leaf body
+      leafNodes.append('path')
+        .attr('d', d => {
+          const w = d.depth === maxDepth ? LEAF_W * 0.85 : LEAF_W;
+          const h = d.depth === maxDepth ? LEAF_H * 0.85 : LEAF_H;
+          return leafPath(w, h);
+        })
+        .attr('fill', d => {
+          const lang = LANGUAGE_DEFS[d.data.language] ?? LANGUAGE_DEFS['unknown'];
+          return lang.fill;
+        })
+        .attr('stroke', d => {
+          const lang = LANGUAGE_DEFS[d.data.language] ?? LANGUAGE_DEFS['unknown'];
+          return lang.stroke;
+        })
+        .attr('stroke-width', d => d.data.isReconstructed ? 1 : 2)
+        .attr('stroke-dasharray', d => d.data.isReconstructed ? '4,3' : 'none')
+        .attr('filter', d => `url(#glow-${d.data.language})`)
+        .attr('opacity', 0)
+        .transition().duration(500).delay((_, i) => 200 + i * 60)
+        .attr('opacity', 1);
+
+      // Leaf center vein
+      leafNodes.append('line')
+        .attr('x1', 0).attr('y1', d => {
+          const h = d.depth === maxDepth ? LEAF_H * 0.85 : LEAF_H;
+          return -h * 0.38;
+        })
+        .attr('x2', 0).attr('y2', d => {
+          const h = d.depth === maxDepth ? LEAF_H * 0.85 : LEAF_H;
+          return h * 0.38;
+        })
+        .attr('stroke', d => {
+          const lang = LANGUAGE_DEFS[d.data.language] ?? LANGUAGE_DEFS['unknown'];
+          return lang.stroke + '50';
+        })
+        .attr('stroke-width', 0.8)
+        .attr('pointer-events','none');
+
+      // Word text on leaf
+      leafNodes.append('text')
+        .attr('text-anchor','middle').attr('dy','-0.15em')
+        .attr('font-family','Lora, Georgia, serif')
+        .attr('font-size', d => d.depth === maxDepth ? 11 : 12.5)
+        .attr('font-weight', 500)
+        .attr('fill', d => {
+          const lang = LANGUAGE_DEFS[d.data.language] ?? LANGUAGE_DEFS['unknown'];
+          return lang.text;
+        })
+        .attr('pointer-events','none')
+        .text(d => {
+          const w = d.data.word;
+          return w.length > 16 ? w.slice(0,14) + '…' : w;
         });
 
       // Language sublabel
-      node.append('text')
-        .attr('dy', '1.3em')
-        .attr('text-anchor', 'middle')
-        .attr('dominant-baseline', 'middle')
-        .attr('font-size', 8.5)
-        .attr('font-family', 'JetBrains Mono, monospace')
+      leafNodes.append('text')
+        .attr('text-anchor','middle').attr('dy','1.15em')
+        .attr('font-family','JetBrains Mono, monospace')
+        .attr('font-size', 7)
         .attr('fill', d => {
-          const def = LANGUAGE_DEFS[d.data.language] ?? LANGUAGE_DEFS['unknown'];
-          return def.stroke;
+          const lang = LANGUAGE_DEFS[d.data.language] ?? LANGUAGE_DEFS['unknown'];
+          return lang.stroke + 'CC';
         })
-        .attr('pointer-events', 'none')
-        .attr('opacity', 0.9)
+        .attr('pointer-events','none')
         .text(d => {
-          const label = formatLanguageLabel(d.data.language, undefined);
-          return label.length > 22 ? label.slice(0, 20) + '…' : label;
+          const name = (LANGUAGE_DEFS[d.data.language] ?? LANGUAGE_DEFS['unknown']).name;
+          return name.length > 20 ? name.slice(0, 18) + '…' : name;
         });
 
-      // Hover interaction highlight
-      node.on('mouseenter', function(_, d) {
-        d3.select(this).select('rect')
+      // Reconstructed ✶ badge
+      leafNodes.filter(d => d.data.isReconstructed)
+        .append('text')
+        .attr('x', d => (d.depth === maxDepth ? LEAF_W * 0.85 : LEAF_W) / 2 - 6)
+        .attr('y', d => -(d.depth === maxDepth ? LEAF_H * 0.85 : LEAF_H) / 2 + 10)
+        .attr('font-size', 8)
+        .attr('fill','#FFD080')
+        .attr('text-anchor','middle')
+        .attr('pointer-events','none')
+        .text('✶');
+
+      // Hover effects
+      nodes.on('mouseenter', function(_, d) {
+        d3.select(this).select('path')
           .transition().duration(150)
-          .attr('stroke-width', d.depth === 0 ? 3.5 : 2.5)
-          .attr('opacity', 0.95);
+          .attr('stroke-width', d.depth === 0 ? 3.5 : 3)
+          .attr('transform', 'scale(1.06)');
       }).on('mouseleave', function(_, d) {
-        d3.select(this).select('rect')
+        d3.select(this).select('path')
           .transition().duration(150)
-          .attr('stroke-width', d.depth === 0 ? 2.5 : 1.5)
-          .attr('opacity', 1);
+          .attr('stroke-width', d.depth === 0 ? 2.5 : d.data.isReconstructed ? 1 : 2)
+          .attr('transform', 'scale(1)');
       });
 
-      // Debug: log node count to console
-      console.log(`[EtymologyTree] Rendered ${nodeCount} nodes, SVG: ${width}x${height}`);
+      /* ── Ground line (roots) ── */
+      const groundY = innerH + 20;
+      g.append('line')
+        .attr('x1', innerW * 0.2).attr('y1', groundY)
+        .attr('x2', innerW * 0.8).attr('y2', groundY)
+        .attr('stroke','#3A2818').attr('stroke-width', 2)
+        .attr('stroke-linecap','round').attr('opacity', 0.6);
 
-    } catch (err) {
-      console.error('[EtymologyTree] Render error:', err);
-      setError('Failed to render etymology tree. Check console for details.');
+      // Small root lines going into the ground
+      [-40, -20, 0, 20, 40].forEach(offset => {
+        g.append('path')
+          .attr('d', `M ${innerW/2 + offset},${groundY} Q ${innerW/2 + offset + 15},${groundY + 18} ${innerW/2 + offset},${groundY + 28}`)
+          .attr('fill','none').attr('stroke','#3A2818')
+          .attr('stroke-width', Math.abs(offset) < 5 ? 3 : 1.5)
+          .attr('opacity', 0.5);
+      });
+
+      console.log(`[EtymologyTree] Rendered ${root.descendants().length} nodes, ${W}×${H}`);
+
+    } catch (e) {
+      console.error('[EtymologyTree]', e);
+      setErr('Tree render failed. See console.');
     }
   }, [data]);
 
-  // Initial draw + redraw on data change
-  useEffect(() => {
-    drawTree();
-  }, [drawTree]);
-
-  // Responsive resize
+  useEffect(() => { draw(); }, [draw]);
   useEffect(() => {
     const el = containerRef.current;
     if (!el) return;
-    const ro = new ResizeObserver(() => drawTree());
+    const ro = new ResizeObserver(() => draw());
     ro.observe(el);
     return () => ro.disconnect();
-  }, [drawTree]);
+  }, [draw]);
 
-  const handleExportSVG = () => {
+  const exportSVG = () => {
     if (!svgRef.current) return;
-    const serializer = new XMLSerializer();
-    let source = serializer.serializeToString(svgRef.current);
-    if (!source.match(/^<svg[^>]+xmlns="http:\/\/www\.w3\.org\/2000\/svg"/)) {
-      source = source.replace(/^<svg/, '<svg xmlns="http://www.w3.org/2000/svg"');
-    }
-    const blob = new Blob([source], { type: 'image/svg+xml;charset=utf-8' });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${data.word}-etymology.svg`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    let src = new XMLSerializer().serializeToString(svgRef.current);
+    if (!src.includes('xmlns=')) src = src.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"');
+    const a = Object.assign(document.createElement('a'), {
+      href: URL.createObjectURL(new Blob([src], { type: 'image/svg+xml' })),
+      download: `${data.word}-etymology.svg`,
+    });
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
   };
 
   return (
-    <div className="relative w-full h-full flex flex-col select-none">
+    <div className="relative w-full h-full flex flex-col">
       {/* Toolbar */}
-      <div className="absolute top-[-36px] right-0 flex gap-2">
-        <button
-          onClick={handleExportSVG}
-          className="text-[11px] font-mono text-[#8A7D5E] hover:text-[#EDE0C4] border border-[#2E2B22] rounded-md px-2.5 py-1 bg-[#1A1810] hover:border-[#C4973A] transition-all duration-200 cursor-pointer"
-        >
+      <div className="absolute top-0 right-0 z-10 flex gap-2 p-2">
+        <button onClick={exportSVG}
+          className="text-[11px] font-mono text-[#8BA4CC] hover:text-[#EEF2FF] border border-[#1E2848] hover:border-[#F0B840]/50 rounded-lg px-3 py-1.5 bg-[#0B0E1A]/80 backdrop-blur hover:bg-[#111830] transition-all duration-200 cursor-pointer">
           export SVG
         </button>
       </div>
 
-      {/* Tree canvas */}
-      <div
-        ref={containerRef}
-        className="flex-1 w-full overflow-x-auto overflow-y-auto"
-        style={{ minHeight: `${SVG_HEIGHT}px` }}
-      >
-        {error ? (
-          <div className="flex items-center justify-center h-full text-sm font-mono text-[#8A3A28] p-8 text-center">
-            <span>⚠ {error}</span>
+      <div ref={containerRef} className="flex-1 overflow-auto"
+        style={{ minHeight: `${SVG_H + 40}px` }}>
+        {err ? (
+          <div className="flex items-center justify-center h-full text-sm font-mono text-[#E05040] p-8 text-center">
+            ⚠ {err}
           </div>
         ) : (
-          <svg
-            ref={svgRef}
-            style={{ display: 'block', minHeight: `${SVG_HEIGHT}px` }}
-          />
+          <svg ref={svgRef} style={{ display: 'block' }} />
         )}
       </div>
 
