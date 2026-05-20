@@ -53,9 +53,10 @@ export default function EtymologyTree({ data }: Props) {
         .y(d => d.y)
       )
       .attr('fill', 'none')
-      .attr('stroke', '#222018')
-      .attr('stroke-width', 2)
-      .attr('stroke-dasharray', d => d.target.data.isReconstructed ? '4,4' : 'none');
+      .attr('stroke', '#5A5240')
+      .attr('stroke-width', 1.5)
+      .attr('stroke-dasharray', d => d.target.data.isReconstructed ? '5,4' : 'none')
+      .attr('opacity', 0.7);
 
     // Draw nodes group
     const node = g.selectAll('.node')
@@ -67,8 +68,8 @@ export default function EtymologyTree({ data }: Props) {
       .on('click', (_, d) => setSelected(d.data));
 
     // Styling configurations
-    const nodeWidth = 140;
-    const nodeHeight = 44;
+    const nodeWidth = 150;
+    const nodeHeight = 50;
 
     // Node Rect Backgrounds
     node.append('rect')
@@ -76,7 +77,7 @@ export default function EtymologyTree({ data }: Props) {
       .attr('y', -nodeHeight / 2)
       .attr('width', nodeWidth)
       .attr('height', nodeHeight)
-      .attr('rx', 7)
+      .attr('rx', 8)
       .attr('fill', d => {
         const langDef = LANGUAGE_DEFS[d.data.language] ?? LANGUAGE_DEFS['unknown'];
         return langDef.fill;
@@ -85,9 +86,9 @@ export default function EtymologyTree({ data }: Props) {
         const langDef = LANGUAGE_DEFS[d.data.language] ?? LANGUAGE_DEFS['unknown'];
         return langDef.stroke;
       })
-      .attr('stroke-width', d => d.depth === 0 ? 2 : 1.2)
-      .attr('stroke-dasharray', d => d.data.isReconstructed ? '4,4' : 'none')
-      .attr('class', 'transition-aesthetic hover:opacity-90');
+      .attr('stroke-width', d => d.depth === 0 ? 2.5 : 1.5)
+      .attr('stroke-dasharray', d => d.data.isReconstructed ? '5,4' : 'none')
+      .attr('filter', 'drop-shadow(0 2px 8px rgba(0,0,0,0.6))');
 
     // Decorative golden accent ribbon on the root English search node
     node.filter(d => d.depth === 0).append('rect')
@@ -102,7 +103,8 @@ export default function EtymologyTree({ data }: Props) {
     node.append('text')
       .attr('dy', '-0.1em')
       .attr('text-anchor', 'middle')
-      .attr('font-size', d => d.depth === 0 ? 13.5 : 12.5)
+      .attr('font-size', d => d.depth === 0 ? 14 : 12.5)
+      .attr('font-weight', d => d.depth === 0 ? '600' : '400')
       .attr('font-family', 'Lora, Georgia, serif')
       .attr('fill', d => {
         const langDef = LANGUAGE_DEFS[d.data.language] ?? LANGUAGE_DEFS['unknown'];
