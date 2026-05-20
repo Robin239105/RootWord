@@ -1,0 +1,60 @@
+{
+  "word": "serendipity",
+  "ipa": "/ˌsɛr.ənˈdɪp.ə.ti/",
+  "partOfSpeech": "noun",
+  "definition": "The occurrence and development of events by chance in a happy or beneficial way.",
+  "firstAttestedCentury": "18th century",
+  "rootDepth": 4,
+  "languagePath": ["unknown", "arabic", "english"],
+  "cognates": ["serendipitous", "Ceylon", "Singhalese"],
+  "tree": {
+    "id": "serendipity-en",
+    "word": "serendipity",
+    "language": "english",
+    "era": "1754 CE",
+    "meaning": "coined by Horace Walpole from the Persian tale 'The Three Princes of Serendip'",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "sarandib-ar",
+        "word": "سرنديب",
+        "romanized": "Sarandib",
+        "language": "arabic",
+        "era": "c. 9th century CE",
+        "meaning": "Arabic name for Sri Lanka",
+        "isReconstructed": false,
+        "children": [
+          {
+            "id": "singhaladvipa-sans",
+            "word": "सिंहलद्वीप",
+            "romanized": "Siṃhaladvīpa",
+            "language": "unknown",
+            "era": "Ancient Sanskrit",
+            "meaning": "Lion Island Dwelling",
+            "isReconstructed": false,
+            "children": [
+              {
+                "id": "simha-sans",
+                "word": "सिंह",
+                "romanized": "siṃhá",
+                "language": "unknown",
+                "meaning": "lion",
+                "isReconstructed": false,
+                "children": []
+              },
+              {
+                "id": "dvipa-sans",
+                "word": "द्वीप",
+                "romanized": "dvīpa",
+                "language": "unknown",
+                "meaning": "island, peninsula",
+                "isReconstructed": false,
+                "children": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

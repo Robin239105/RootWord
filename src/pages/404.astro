@@ -1,0 +1,53 @@
+---
+// src/pages/404.astro
+import Nav from '../components/Nav.astro';
+import SearchBar from '../components/SearchBar.tsx';
+---
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>Etymology Lost · Rootword</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body class="bg-[#0E0D0A] text-[#EDE0C4] min-h-screen flex flex-col justify-between">
+
+  <Nav />
+
+  <main class="flex-1 flex flex-col items-center justify-center px-6 py-16 text-center max-w-lg mx-auto">
+    
+    <div class="mb-8 select-none">
+      <span class="text-7xl font-serif text-[#C4973A] block mb-4">✶</span>
+      <h1 class="text-3xl font-serif font-medium text-[#EDE0C4] mb-2">
+        Etymology Unattested
+      </h1>
+      <p class="text-xs font-mono text-[#8A7D5E] uppercase tracking-wider">
+        Lost to prehistoric times (404)
+      </p>
+    </div>
+
+    <p class="text-sm font-serif italic text-[#8A7D5E] leading-relaxed mb-10">
+      &ldquo;This word has left no written tracks in our database or online records, or the scriptorium has not yet transcribed it.&rdquo;
+    </p>
+
+    <div class="w-full flex flex-col items-center gap-6">
+      <SearchBar client:load placeholder="search another word..." />
+      
+      <a 
+        href="/" 
+        class="text-xs font-mono text-[#EDE0C4] hover:text-[#C4973A] border border-[#2E2B22] hover:border-[#C4973A] rounded px-4 py-2 bg-[#1A1810] transition-aesthetic"
+      >
+        return to scriptorium
+      </a>
+    </div>
+
+  </main>
+
+  <footer class="border-t border-[#181614] py-8 text-center text-[10px] font-mono text-[#4A4030] select-none">
+    <p>© 2026 Rootword. Trace back to prehistory.</p>
+  </footer>
+
+</body>
+</html>

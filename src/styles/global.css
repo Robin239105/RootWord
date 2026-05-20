@@ -1,0 +1,95 @@
+@import "tailwindcss";
+
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --bg-base:       #0E0D0A;   /* near-black warm */
+  --bg-surface:    #1A1810;   /* dark parchment */
+  --bg-elevated:   #131210;   /* slightly lifted */
+  --border:        #2E2B22;   /* warm dark border */
+  --border-faint:  #181614;
+  --text-primary:  #EDE0C4;   /* warm cream */
+  --text-secondary:#8A7D5E;   /* aged paper tone */
+  --text-muted:    #4A4030;
+  --accent:        #C4973A;   /* amber gold */
+  --accent-bright: #E8B84B;
+
+  /* Language colors mapping */
+  --node-english: #C4973A;
+  --node-english-fill: #1C180A;
+  --node-english-text: #EDE0C4;
+
+  --node-latin: #3A6A30;
+  --node-latin-fill: #111510;
+  --node-latin-text: #B8D8A0;
+
+  --node-greek: #2A4882;
+  --node-greek-fill: #0E1018;
+  --node-greek-text: #A0B8E0;
+
+  --node-proto: #221E14;
+  --node-proto-fill: #0A0908;
+  --node-proto-text: #4A3E28;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: 'Lora', Georgia, serif;
+}
+
+/* Monospace text for metadata, labels, tags */
+.font-mono {
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+/* Serif text for display / word titles / definitions */
+.font-serif {
+  font-family: 'Lora', 'Playfair Display', Georgia, serif;
+}
+
+/* Medieval parchment glow effect */
+.parchment-glow {
+  box-shadow: 0 0 15px rgba(196, 151, 58, 0.05), inset 0 0 20px rgba(196, 151, 58, 0.02);
+}
+
+.parchment-glow-hover:hover {
+  box-shadow: 0 0 20px rgba(196, 151, 58, 0.08), inset 0 0 30px rgba(196, 151, 58, 0.03);
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
+
+/* Soft transition properties */
+.transition-aesthetic {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Keyframe animations for typewriter or loading indicators */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1.02);
+  }
+}
+
+.pulse-glow {
+  animation: pulseGlow 3s infinite ease-in-out;
+}

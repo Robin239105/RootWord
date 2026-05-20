@@ -1,0 +1,38 @@
+{
+  "word": "template",
+  "ipa": "/ˈtɛm.plət/",
+  "partOfSpeech": "noun",
+  "definition": "A pattern, mold, or guide used as a template for making something.",
+  "firstAttestedCentury": "17th century",
+  "rootDepth": 1,
+  "languagePath": ["latin", "english"],
+  "cognates": ["contemplation", "temple"],
+  "tree": {
+    "id": "template-en",
+    "word": "template",
+    "language": "english",
+    "era": "c. 1670 CE",
+    "meaning": "a flat piece of wood or metal used as a guide",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "templum-la",
+        "word": "templum",
+        "language": "latin",
+        "era": "Classical Latin",
+        "meaning": "sacred space, temple, small piece of timber",
+        "isReconstructed": false,
+        "children": [
+          {
+            "id": "tem-proto",
+            "word": "*tem-",
+            "language": "proto-indo-european",
+            "meaning": "to cut (hence: a section marked off)",
+            "isReconstructed": true,
+            "children": []
+          }
+        ]
+      }
+    ]
+  }
+}

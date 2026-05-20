@@ -1,0 +1,71 @@
+---
+// src/pages/explore/[word].astro
+import Nav from '../../components/Nav.astro';
+import WordPanel from '../../components/WordPanel.tsx';
+import EtymologyTree from '../../components/EtymologyTree.tsx';
+import { fetchWordData } from '../../lib/etymology';
+
+export const prerender = false;
+
+const { word } = Astro.params;
+const data = await fetchWordData(word!);
+
+// Custom page fallback if etymology isn't found
+if (!data) {
+  return Astro.redirect('/404');
+}
+---
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>{data.word} · Rootword Explorer</title>
+  <meta name="description" content={`Etymology of "${data.word}": ${data.definition}`} />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body class="bg-[#0E0D0A] text-[#EDE0C4] h-screen flex flex-col overflow-hidden">
+
+  <Nav />
+
+  <main class="flex flex-1 overflow-hidden">
+    
+    {/* Info Sidebar Panel */}
+    <WordPanel data={data} client:load />
+
+    {/* Visualization Canvas area */}
+    <div class="flex-1 flex flex-col border-l border-[#181614] bg-[#0E0D0A]">
+      
+      {/* Dynamic top tool menu */}
+      <div class="h-10 border-b border-[#181614] flex items-center px-4 gap-3 bg-[#0E0D0A]/40 backdrop-blur select-none">
+        <button class="text-[11px] font-mono text-[#C4973A] border border-[#3A2E18] rounded px-2 py-0.5 bg-[#1C180A]">
+          tree view
+        </button>
+        <button 
+          onclick="alert('Timeline View is planned for the v2.0 roadmap! You will be able to see nodes arranged on a linear century axis.')"
+          class="text-[11px] font-mono text-[#4A4030] border border-[#2E2B22] rounded px-2 py-0.5 bg-[#1A1810] hover:text-[#8A7D5E] transition-aesthetic cursor-pointer"
+        >
+          timeline
+        </button>
+        <button 
+          onclick="alert('World Map View is planned for the v2.0 roadmap! You will see roots plotted on an interactive historical geographic map.')"
+          class="text-[11px] font-mono text-[#4A4030] border border-[#2E2B22] rounded px-2 py-0.5 bg-[#1A1810] hover:text-[#8A7D5E] transition-aesthetic cursor-pointer"
+        >
+          world map
+        </button>
+        
+        <span class="flex-1" />
+        <span class="text-[10px] font-mono text-[#2E2B22] hidden sm:inline">click nodes to inspect</span>
+      </div>
+
+      {/* Tree Visualization Island */}
+      <div class="flex-1 flex items-center justify-center p-6 relative">
+        <EtymologyTree data={data} client:load />
+      </div>
+
+    </div>
+  </main>
+
+</body>
+</html>

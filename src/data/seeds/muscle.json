@@ -1,0 +1,58 @@
+{
+  "word": "muscle",
+  "ipa": "/ˈmʌs.əl/",
+  "partOfSpeech": "noun",
+  "definition": "A band or bundle of fibrous tissue in a human or animal body that has the ability to contract, producing movement.",
+  "firstAttestedCentury": "14th century",
+  "rootDepth": 4,
+  "languagePath": ["proto-indo-european", "latin", "old-french", "english"],
+  "cognates": ["mouse", "muscleman", "muscular", "mussel", "myology"],
+  "tree": {
+    "id": "muscle-en",
+    "word": "muscle",
+    "language": "english",
+    "era": "c. 1380 CE",
+    "meaning": "contractible bodily tissue",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "muscle-of",
+        "word": "muscle",
+        "language": "old-french",
+        "era": "14th century",
+        "meaning": "muscle, organ of movement",
+        "isReconstructed": false,
+        "children": [
+          {
+            "id": "musculus-la",
+            "word": "musculus",
+            "language": "latin",
+            "era": "Classical Latin",
+            "meaning": "little mouse (due to resemblance of contracting muscles to running mice)",
+            "isReconstructed": false,
+            "children": [
+              {
+                "id": "mus-la",
+                "word": "mus",
+                "language": "latin",
+                "era": "Latin",
+                "meaning": "mouse",
+                "isReconstructed": false,
+                "children": [
+                  {
+                    "id": "mus-proto",
+                    "word": "*mūs",
+                    "language": "proto-indo-european",
+                    "meaning": "mouse, thief",
+                    "isReconstructed": true,
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

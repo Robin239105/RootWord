@@ -1,0 +1,74 @@
+{
+  "word": "window",
+  "ipa": "/ˈwɪn.doʊ/",
+  "partOfSpeech": "noun",
+  "definition": "An opening in the wall or roof of a building or vehicle for admitting light or air.",
+  "firstAttestedCentury": "13th century",
+  "rootDepth": 4,
+  "languagePath": ["proto-indo-european", "proto-germanic", "old-norse", "middle-english", "english"],
+  "cognates": ["wind", "eye", "ocular", "ventilate", "windowpane"],
+  "tree": {
+    "id": "window-en",
+    "word": "window",
+    "language": "english",
+    "era": "c. 1300 CE",
+    "meaning": "opening for light and air",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "windowe-me",
+        "word": "windowe",
+        "language": "middle-english",
+        "era": "13th century",
+        "meaning": "window, window-opening",
+        "isReconstructed": false,
+        "children": [
+          {
+            "id": "vindauga-on",
+            "word": "vindauga",
+            "language": "old-norse",
+            "era": "Old Norse",
+            "meaning": "wind-eye (opening for wind and light)",
+            "isReconstructed": false,
+            "children": [
+              {
+                "id": "vindr-on",
+                "word": "vindr",
+                "language": "old-norse",
+                "meaning": "wind",
+                "isReconstructed": false,
+                "children": [
+                  {
+                    "id": "windaz-pg",
+                    "word": "*windaz",
+                    "language": "proto-germanic",
+                    "meaning": "wind",
+                    "isReconstructed": true,
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "auga-on",
+                "word": "auga",
+                "language": "old-norse",
+                "meaning": "eye",
+                "isReconstructed": false,
+                "children": [
+                  {
+                    "id": "augo-pg",
+                    "word": "*augô",
+                    "language": "proto-germanic",
+                    "meaning": "eye",
+                    "isReconstructed": true,
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

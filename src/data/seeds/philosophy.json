@@ -1,0 +1,79 @@
+{
+  "word": "philosophy",
+  "ipa": "/fɪˈlɒs.ə.fi/",
+  "partOfSpeech": "noun",
+  "definition": "The study of the fundamental nature of knowledge, reality, and existence.",
+  "firstAttestedCentury": "13th century",
+  "rootDepth": 4,
+  "languagePath": ["proto-greek", "ancient-greek", "latin", "english"],
+  "cognates": ["philosopher", "sophistry", "sophomore", "philanthropist", "bibliophile"],
+  "tree": {
+    "id": "philosophy-en",
+    "word": "philosophy",
+    "language": "english",
+    "era": "c. 1280 CE",
+    "meaning": "love of wisdom; pursuit of fundamental knowledge",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "philosophia-la",
+        "word": "philosophia",
+        "language": "latin",
+        "era": "classical Latin",
+        "meaning": "philosophy, love of wisdom",
+        "isReconstructed": false,
+        "children": [
+          {
+            "id": "philosophia-gk",
+            "word": "φιλοσοφία",
+            "romanized": "philosophia",
+            "language": "ancient-greek",
+            "era": "c. 570 BCE",
+            "meaning": "love (philos) of wisdom (sophia)",
+            "isReconstructed": false,
+            "children": [
+              {
+                "id": "philos-gk",
+                "word": "φίλος",
+                "romanized": "philos",
+                "language": "ancient-greek",
+                "era": "Ancient Greek",
+                "meaning": "loving, fond of, dear",
+                "isReconstructed": false,
+                "children": [
+                  {
+                    "id": "phileîn-proto",
+                    "word": "*phileîn",
+                    "language": "proto-greek",
+                    "meaning": "to love",
+                    "isReconstructed": true,
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "sophia-gk",
+                "word": "σοφία",
+                "romanized": "sophia",
+                "language": "ancient-greek",
+                "era": "Ancient Greek",
+                "meaning": "wisdom, skill, cleverness",
+                "isReconstructed": false,
+                "children": [
+                  {
+                    "id": "sophos-proto",
+                    "word": "*sophos",
+                    "language": "proto-greek",
+                    "meaning": "wise, skilled",
+                    "isReconstructed": true,
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}

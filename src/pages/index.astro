@@ -1,0 +1,126 @@
+---
+// src/pages/index.astro
+import Nav from '../components/Nav.astro';
+import SearchBar from '../components/SearchBar.tsx';
+import { fetchWordData, getAllSeedWords } from '../lib/etymology';
+
+// Pre-render a few featured words
+const featuredWords = ['philosophy', 'muscle', 'salary'];
+const featuredData = await Promise.all(
+  featuredWords.map(w => fetchWordData(w))
+);
+---
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>Rootword · Every word has ancestors</title>
+  <meta name="description" content="A visual etymology explorer. Type any English word and watch its ancient roots grow into a beautiful ancestral tree." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* parchment grid texture */
+    .bg-grid {
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(46, 43, 34, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(46, 43, 34, 0.08) 1px, transparent 1px);
+    }
+  </style>
+</head>
+<body class="bg-[#0E0D0A] text-[#EDE0C4] min-h-screen flex flex-col relative bg-grid">
+
+  <Nav />
+
+  <main class="flex-1 flex flex-col items-center justify-center px-6 py-16 max-w-5xl mx-auto z-10">
+    
+    {/* Hero Logo */}
+    <div class="text-center mb-12 select-none">
+      <h1 class="text-6xl sm:text-7xl font-serif font-semibold text-[#C4973A] tracking-wider mb-4 animate-fade-in">
+        Root<span class="text-[#EDE0C4]">word</span>
+      </h1>
+      <p class="text-sm sm:text-base font-mono text-[#8A7D5E] tracking-widest uppercase">
+        Every word has ancestors.
+      </p>
+    </div>
+
+    {/* Search Box Console */}
+    <div class="w-full flex justify-center mb-6">
+      <SearchBar client:load placeholder="type any English word..." />
+    </div>
+
+    {/* Rotating terms ticker */}
+    <div class="h-6 mb-16 flex items-center justify-center font-mono text-xs text-[#4A4030] gap-2 select-none">
+      <span>try:</span>
+      <span id="ticker-word" class="text-[#C4973A] font-medium transition-all duration-300 opacity-100 italic">philosophy</span>
+    </div>
+
+    {/* Featured Words Section */}
+    <div class="w-full">
+      <h3 class="text-center text-xs font-mono text-[#4A4030] uppercase tracking-widest mb-8">
+        Featured Ancestries
+      </h3>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {featuredData.map((data) => data && (
+          <a 
+            href={`/explore/${data.word}`} 
+            class="bg-[#1A1810] border border-[#2E2B22] hover:border-[#C4973A] p-6 rounded flex flex-col justify-between text-left transition-aesthetic parchment-glow parchment-glow-hover group"
+          >
+            <div>
+              <div class="flex justify-between items-start mb-3">
+                <h4 class="text-xl font-serif font-medium text-[#EDE0C4] capitalize group-hover:text-[#C4973A] transition-colors">
+                  {data.word}
+                </h4>
+                <span class="text-[10px] font-mono text-[#8A7D5E] border border-[#2E2B22] px-1.5 py-0.5 bg-[#0E0D0A] rounded">
+                  {data.ipa}
+                </span>
+              </div>
+              <p class="text-xs font-serif italic text-[#8A7D5E] line-clamp-3 mb-6 leading-relaxed">
+                &ldquo;{data.definition}&rdquo;
+              </p>
+            </div>
+            
+            <div class="flex items-center justify-between border-t border-[#181614] pt-4 text-[10px] font-mono text-[#4A4030] group-hover:text-[#8A7D5E] transition-colors">
+              <span>{data.rootDepth} generations</span>
+              <span>explore ➜</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+
+  </main>
+
+  {/* Footer */}
+  <footer class="border-t border-[#181614] py-8 text-center text-[10px] font-mono text-[#4A4030] select-none mt-auto">
+    <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p>© 2026 Rootword. MIT License. Built with Astro, React, D3.js, & Tailwind CSS v4.</p>
+      <div class="flex gap-4">
+        <a href="/languages" class="hover:text-[#8A7D5E] transition-colors">language browser</a>
+        <span>•</span>
+        <a href="https://github.com/yourusername/rootword" class="hover:text-[#8A7D5E] transition-colors">github contributors</a>
+      </div>
+    </div>
+  </footer>
+
+  {/* Inline script for dynamic ticker example rotating terms */}
+  <script is:inline>
+    const words = ["philosophy", "serendipity", "muscle", "tragedy", "window", "salary"];
+    let idx = 0;
+    const el = document.getElementById("ticker-word");
+    if (el) {
+      setInterval(() => {
+        el.style.opacity = "0";
+        setTimeout(() => {
+          idx = (idx + 1) % words.length;
+          el.textContent = words[idx];
+          el.style.opacity = "1";
+        }, 300);
+      }, 3500);
+    }
+  </script>
+
+</body>
+</html>

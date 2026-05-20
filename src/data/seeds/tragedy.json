@@ -1,0 +1,87 @@
+{
+  "word": "tragedy",
+  "ipa": "/ˈtrædʒ.ə.di/",
+  "partOfSpeech": "noun",
+  "definition": "An event causing great suffering, destruction, and distress, or a play dealing with tragic events and having an unhappy ending.",
+  "firstAttestedCentury": "14th century",
+  "rootDepth": 4,
+  "languagePath": ["proto-greek", "ancient-greek", "latin", "old-french", "english"],
+  "cognates": ["ode", "melody", "parody", "comedy", "tragic", "psalmody"],
+  "tree": {
+    "id": "tragedy-en",
+    "word": "tragedy",
+    "language": "english",
+    "era": "c. 1380 CE",
+    "meaning": "dramatic play with a sad ending",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "tragedie-of",
+        "word": "tragedie",
+        "language": "old-french",
+        "era": "14th century",
+        "meaning": "tragedy, tragic play",
+        "isReconstructed": false,
+        "children": [
+          {
+            "id": "tragoedia-la",
+            "word": "tragoedia",
+            "language": "latin",
+            "era": "Classical Latin",
+            "meaning": "tragedy",
+            "isReconstructed": false,
+            "children": [
+              {
+                "id": "tragoidia-gk",
+                "word": "τραγῳδία",
+                "romanized": "tragōidía",
+                "language": "ancient-greek",
+                "era": "c. 5th century BCE",
+                "meaning": "goat-song (possibly referencing actors dressed as goats or a goat awarded as a prize)",
+                "isReconstructed": false,
+                "children": [
+                  {
+                    "id": "tragos-gk",
+                    "word": "τράγος",
+                    "romanized": "trágos",
+                    "language": "ancient-greek",
+                    "meaning": "male goat",
+                    "isReconstructed": false,
+                    "children": [
+                      {
+                        "id": "trag-proto",
+                        "word": "*trāg-",
+                        "language": "proto-greek",
+                        "meaning": "to gnaw, chew (referencing a goat's feeding habit)",
+                        "isReconstructed": true,
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "id": "aoide-gk",
+                    "word": "ἀοιδή",
+                    "romanized": "aoidē",
+                    "language": "ancient-greek",
+                    "meaning": "song, singing",
+                    "isReconstructed": false,
+                    "children": [
+                      {
+                        "id": "weid-proto",
+                        "word": "*weid-",
+                        "language": "proto-greek",
+                        "meaning": "to speak, sing",
+                        "isReconstructed": true,
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
