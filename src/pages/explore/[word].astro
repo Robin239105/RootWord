@@ -4,58 +4,63 @@ import Nav from '../../components/Nav.astro';
 import WordPanel from '../../components/WordPanel.tsx';
 import EtymologyTree from '../../components/EtymologyTree.tsx';
 import { fetchWordData } from '../../lib/etymology';
-import '../../styles/global.css';
 
 export const prerender = false;
 
 const { word } = Astro.params;
 const data = await fetchWordData(word!);
-if (!data) return Astro.redirect('/404');
+
+// Custom page fallback if etymology isn't found
+if (!data) {
+  return Astro.redirect('/404');
+}
 ---
 
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width" />
-  <title>{data.word} · Rootword</title>
-  <meta name="description" content={`Etymology of "${data.word}": ${data.definition.replace(/<[^>]*>/g,'').slice(0,150)}`} />
+  <title>{data.word} · Rootword Explorer</title>
+  <meta name="description" content={`Etymology of "${data.word}": ${data.definition}`} />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
 </head>
-<body class="bg-[#06080F] text-[#EEF2FF] h-screen flex flex-col overflow-hidden">
+<body class="bg-[#0E0D0A] text-[#EDE0C4] h-screen flex flex-col overflow-hidden">
 
   <Nav />
 
   <main class="flex flex-1 overflow-hidden">
-
-    <!-- Sidebar -->
+    
+    {/* Info Sidebar Panel */}
     <WordPanel data={data} client:load />
 
-    <!-- Tree canvas -->
-    <div class="flex-1 flex flex-col overflow-hidden bg-[#06080F]">
-
-      <!-- Tab bar -->
-      <div class="h-11 border-b border-[#1E2848] flex items-center px-4 gap-2 bg-[#080B16]/80 backdrop-blur shrink-0">
-        <button class="text-[11px] font-mono text-[#F0B840] border border-[#F0B840]/30 rounded-lg px-3 py-1 bg-[#1E1A08]/60">
-          🌳 tree view
+    {/* Visualization Canvas area */}
+    <div class="flex-1 flex flex-col border-l border-[#181614] bg-[#0E0D0A]">
+      
+      {/* Dynamic top tool menu */}
+      <div class="h-10 border-b border-[#181614] flex items-center px-4 gap-3 bg-[#0E0D0A]/40 backdrop-blur select-none">
+        <button class="text-[11px] font-mono text-[#C4973A] border border-[#3A2E18] rounded px-2 py-0.5 bg-[#1C180A]">
+          tree view
         </button>
-        <button
-          onclick="alert('Timeline View — coming v2.0! Nodes on a linear century axis.')"
-          class="text-[11px] font-mono text-[#3D5480] border border-[#1E2848] rounded-lg px-3 py-1 bg-[#080B16] hover:text-[#8BA4CC] hover:border-[#2A3660] transition-all duration-200 cursor-pointer">
-          📅 timeline
+        <button 
+          onclick="alert('Timeline View is planned for the v2.0 roadmap! You will be able to see nodes arranged on a linear century axis.')"
+          class="text-[11px] font-mono text-[#4A4030] border border-[#2E2B22] rounded px-2 py-0.5 bg-[#1A1810] hover:text-[#8A7D5E] transition-aesthetic cursor-pointer"
+        >
+          timeline
         </button>
-        <button
-          onclick="alert('World Map View — coming v2.0! Roots plotted on an interactive historical map.')"
-          class="text-[11px] font-mono text-[#3D5480] border border-[#1E2848] rounded-lg px-3 py-1 bg-[#080B16] hover:text-[#8BA4CC] hover:border-[#2A3660] transition-all duration-200 cursor-pointer">
-          🗺 world map
+        <button 
+          onclick="alert('World Map View is planned for the v2.0 roadmap! You will see roots plotted on an interactive historical geographic map.')"
+          class="text-[11px] font-mono text-[#4A4030] border border-[#2E2B22] rounded px-2 py-0.5 bg-[#1A1810] hover:text-[#8A7D5E] transition-aesthetic cursor-pointer"
+        >
+          world map
         </button>
-
+        
         <span class="flex-1" />
-        <span class="text-[10px] font-mono text-[#1E2848] hidden sm:inline select-none">click any node to inspect it</span>
+        <span class="text-[10px] font-mono text-[#2E2B22] hidden sm:inline">click nodes to inspect</span>
       </div>
 
-      <!-- Tree -->
-      <div class="flex-1 overflow-auto relative" style="min-height:0;">
+      {/* Tree Visualization Island */}
+      <div class="flex-1 flex items-center justify-center p-6 relative">
         <EtymologyTree data={data} client:load />
       </div>
 

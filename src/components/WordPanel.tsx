@@ -3,130 +3,109 @@ import React from 'react';
 import type { WordData } from '../types/etymology';
 import { LANGUAGE_DEFS } from '../lib/languages';
 
-interface Props { data: WordData; }
-
-const LANG_ICON: Record<string, string> = {
-  'english':'🏴󠁧󠁢󠁥󠁮󠁧󠁿','middle-english':'📜','old-english':'⚔️','old-french':'⚜️',
-  'latin':'🏛️','medieval-latin':'✝️','ancient-greek':'🏺','proto-greek':'◎',
-  'proto-germanic':'⚙️','proto-indo-european':'🌍','arabic':'🌙','old-norse':'🪓','unknown':'✶',
-};
+interface Props {
+  data: WordData;
+}
 
 export default function WordPanel({ data }: Props) {
-  const cleanDef = data.definition.replace(/<[^>]*>/g, '').slice(0, 200);
+  const handleCognateClick = (cognate: string) => {
+    window.location.href = `/explore/${encodeURIComponent(cognate.toLowerCase().trim())}`;
+  };
 
   return (
-    <aside className="w-72 h-full bg-[#080B16] border-r border-[#1E2848] flex flex-col overflow-hidden shrink-0">
-
-      {/* Top gold accent */}
-      <div className="h-0.5 shrink-0"
-        style={{ background: 'linear-gradient(90deg, transparent, #F0B840, #3DDBA0, transparent)' }} />
-
-      <div className="flex-1 overflow-y-auto p-5 flex flex-col gap-5">
-
-        {/* Word heading */}
-        <div>
-          <h1 className="text-3xl font-serif font-bold text-[#EEF2FF] capitalize leading-tight mb-2"
-            style={{ textShadow: '0 0 30px rgba(240,184,64,0.25)' }}>
-            {data.word}
-          </h1>
-          <div className="flex items-center gap-2 flex-wrap">
-            <span className="text-sm font-mono text-[#F0B840] bg-[#1E1A08] border border-[#F0B840]/30 px-2.5 py-0.5 rounded-md">
-              {data.ipa}
-            </span>
-            <span className="text-xs font-mono text-[#3D5480] italic bg-[#0E1224] px-2 py-0.5 rounded border border-[#1E2848]">
-              {data.partOfSpeech}
-            </span>
-          </div>
+    <aside className="w-80 h-full bg-[#1A1810] border-r border-[#2E2B22] p-6 flex flex-col overflow-y-auto parchment-glow select-none">
+      {/* Title & Phonetics */}
+      <div className="mb-6">
+        <h1 className="text-3xl font-serif font-medium text-[#EDE0C4] tracking-wide mb-1.5 capitalize">
+          {data.word}
+        </h1>
+        <div className="flex items-center gap-3 text-xs font-mono">
+          <span className="text-[#C4973A]">{data.ipa}</span>
+          <span className="text-[#4A4030]">•</span>
+          <span className="text-[#8A7D5E] italic bg-[#131210] px-2 py-0.5 rounded border border-[#2E2B22]">
+            {data.partOfSpeech}
+          </span>
         </div>
+      </div>
 
-        <div className="h-px bg-[#1E2848]" />
+      {/* Dictionary Definition */}
+      <div className="mb-6 pb-6 border-b border-[#2E2B22]">
+        <h4 className="text-[10px] font-mono text-[#4A4030] uppercase tracking-wider mb-2">Definition</h4>
+        <p className="text-sm font-serif italic text-[#8A7D5E] leading-relaxed">
+          &ldquo;{data.definition}&rdquo;
+        </p>
+      </div>
 
-        {/* Definition */}
-        <div>
-          <div className="text-[10px] font-mono text-[#3D5480] uppercase tracking-[0.18em] mb-2">Definition</div>
-          <p className="text-sm font-serif italic text-[#8BA4CC] leading-relaxed">
-            &ldquo;{cleanDef}&rdquo;
-          </p>
-        </div>
-
-        <div className="h-px bg-[#1E2848]" />
-
-        {/* Ancestral path — visual tree stem */}
-        <div>
-          <div className="text-[10px] font-mono text-[#3D5480] uppercase tracking-[0.18em] mb-3">Ancestral Path</div>
-          <div className="flex flex-col">
-            {data.languagePath.map((lang, i) => {
-              const def = LANGUAGE_DEFS[lang] ?? LANGUAGE_DEFS['unknown'];
-              const isLast = i === data.languagePath.length - 1;
-              const icon = LANG_ICON[lang] ?? '◈';
-              return (
-                <div key={`${lang}-${i}`}>
-                  <div className={`flex items-center gap-3 px-3 py-2 rounded-xl transition-all duration-200
-                    ${isLast
-                      ? 'bg-[#1E1A08] border border-[#F0B840]/30'
-                      : 'hover:bg-[#0E1224]'}`}>
-                    <span className="text-base w-6 text-center shrink-0 leading-none">{icon}</span>
-                    <div className="flex-1 min-w-0">
-                      <div className={`text-xs font-mono truncate ${isLast ? 'font-semibold' : ''}`}
-                        style={{ color: def.stroke }}>
-                        {def.name}
-                      </div>
-                      <div className="text-[9px] font-mono text-[#3D5480]">{def.family} family</div>
-                    </div>
-                    {isLast && <span className="text-[8px] font-mono text-[#F0B840] shrink-0 bg-[#F0B840]/10 px-1.5 py-0.5 rounded">now</span>}
-                  </div>
-                  {!isLast && (
-                    <div className="flex ml-6 my-0.5">
-                      <div className="w-px h-3 ml-2.5" style={{ background: `${def.stroke}40` }} />
-                    </div>
-                  )}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="h-px bg-[#1E2848]" />
-
-        {/* Stats */}
-        <div className="grid grid-cols-2 gap-3">
-          <div className="bg-[#0B0E1A] border border-[#1E2848] rounded-xl p-3 text-center">
-            <div className="text-[9px] font-mono text-[#3D5480] uppercase tracking-wider mb-1.5">Attested</div>
-            <div className="text-xs font-mono text-[#EEF2FF] font-semibold leading-tight">{data.firstAttestedCentury}</div>
-          </div>
-          <div className="bg-[#0B0E1A] border border-[#1E2848] rounded-xl p-3 text-center">
-            <div className="text-[9px] font-mono text-[#3D5480] uppercase tracking-wider mb-1.5">Depth</div>
-            <div className="text-2xl font-mono font-bold" style={{ color: '#F0B840', textShadow: '0 0 12px rgba(240,184,64,0.4)' }}>
-              {data.rootDepth}
-            </div>
-          </div>
-        </div>
-
-        {/* Cognates */}
-        {data.cognates?.length > 0 && (
-          <>
-            <div className="h-px bg-[#1E2848]" />
-            <div>
-              <div className="text-[10px] font-mono text-[#3D5480] uppercase tracking-[0.18em] mb-3">Related Cognates</div>
-              <div className="flex flex-wrap gap-2">
-                {data.cognates.map(c => (
-                  <button key={c}
-                    onClick={() => window.location.href = `/explore/${encodeURIComponent(c.toLowerCase())}`}
-                    className="text-xs font-mono text-[#8BA4CC] hover:text-[#EEF2FF] bg-[#0B0E1A] hover:bg-[#111830] border border-[#1E2848] hover:border-[#F0B840]/40 rounded-lg px-3 py-1.5 cursor-pointer transition-all duration-200">
-                    {c}
-                  </button>
-                ))}
+      {/* Language Path Migration */}
+      <div className="mb-6 pb-6 border-b border-[#2E2B22]">
+        <h4 className="text-[10px] font-mono text-[#4A4030] uppercase tracking-wider mb-3">Ancestral Path</h4>
+        <div className="flex flex-col gap-2">
+          {data.languagePath.map((lang, index) => {
+            const def = LANGUAGE_DEFS[lang] ?? LANGUAGE_DEFS['unknown'];
+            const isLast = index === data.languagePath.length - 1;
+            return (
+              <div key={lang} className="flex items-center gap-2.5">
+                <div 
+                  className="w-2.5 h-2.5 rounded-full border border-current flex-shrink-0"
+                  style={{ color: def.stroke, backgroundColor: def.fill }}
+                />
+                <span className={`text-xs font-mono ${isLast ? 'text-[#EDE0C4] font-medium' : 'text-[#8A7D5E]'}`}>
+                  {def.name}
+                </span>
+                {!isLast && (
+                  <span className="text-[10px] text-[#4A4030] ml-auto">↓</span>
+                )}
               </div>
-            </div>
-          </>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Metadata Indicators */}
+      <div className="grid grid-cols-2 gap-4 mb-6 pb-6 border-b border-[#2E2B22] text-center">
+        <div className="bg-[#131210] p-2.5 border border-[#2E2B22] rounded">
+          <div className="text-[10px] font-mono text-[#4A4030] uppercase">Attested</div>
+          <div className="text-xs font-mono text-[#EDE0C4] mt-1 font-semibold">
+            {data.firstAttestedCentury}
+          </div>
+        </div>
+        <div className="bg-[#131210] p-2.5 border border-[#2E2B22] rounded">
+          <div className="text-[10px] font-mono text-[#4A4030] uppercase">Generations</div>
+          <div className="text-xs font-mono text-[#C4973A] mt-1 font-semibold">
+            {data.rootDepth} Levels
+          </div>
+        </div>
+      </div>
+
+      {/* Cognates list */}
+      <div>
+        <h4 className="text-[10px] font-mono text-[#4A4030] uppercase tracking-wider mb-2.5">Related Cognates</h4>
+        {data.cognates.length > 0 ? (
+          <div className="flex flex-wrap gap-2">
+            {data.cognates.map((cog) => (
+              <button
+                key={cog}
+                onClick={() => handleCognateClick(cog)}
+                className="text-xs font-mono text-[#8A7D5E] hover:text-[#EDE0C4] bg-[#0E0D0A] hover:bg-[#131210] border border-[#2E2B22] hover:border-[#C4973A] rounded px-2.5 py-1.5 cursor-pointer transition-aesthetic"
+              >
+                {cog}
+              </button>
+            ))}
+          </div>
+        ) : (
+          <span className="text-xs font-mono text-[#4A4030] italic">No direct cognates indexed.</span>
         )}
       </div>
 
-      {/* Footer */}
-      <div className="px-5 py-3 border-t border-[#1E2848] shrink-0 flex justify-between text-[9px] font-mono text-[#1E2848]">
-        <span className="text-[#3D5480]">source</span>
-        <span className="text-[#3D5480] truncate ml-2">{data.contributors?.join(', ') ?? 'wiktionary'}</span>
-      </div>
+      {/* Contributors footer */}
+      {data.contributors && data.contributors.length > 0 && (
+        <div className="mt-auto pt-6 text-[9px] font-mono text-[#4A4030] flex items-center justify-between">
+          <span>curators:</span>
+          <span className="text-right text-[#8A7D5E] truncate max-w-[150px]">
+            {data.contributors.join(', ')}
+          </span>
+        </div>
+      )}
     </aside>
   );
 }

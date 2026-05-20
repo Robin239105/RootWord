@@ -2,11 +2,13 @@
 // src/pages/index.astro
 import Nav from '../components/Nav.astro';
 import SearchBar from '../components/SearchBar.tsx';
-import { fetchWordData } from '../lib/etymology';
-import '../styles/global.css';
+import { fetchWordData, getAllSeedWords } from '../lib/etymology';
 
+// Pre-render a few featured words
 const featuredWords = ['philosophy', 'muscle', 'salary'];
-const featuredData  = await Promise.all(featuredWords.map(w => fetchWordData(w)));
+const featuredData = await Promise.all(
+  featuredWords.map(w => fetchWordData(w))
+);
 ---
 
 <html lang="en">
@@ -14,182 +16,111 @@ const featuredData  = await Promise.all(featuredWords.map(w => fetchWordData(w))
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width" />
   <title>Rootword · Every word has ancestors</title>
-  <meta name="description" content="A visual etymology explorer. Type any English word and watch its ancient roots grow into a beautiful tree." />
+  <meta name="description" content="A visual etymology explorer. Type any English word and watch its ancient roots grow into a beautiful ancestral tree." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    /* parchment grid texture */
+    .bg-grid {
+      background-size: 40px 40px;
+      background-image: 
+        linear-gradient(to right, rgba(46, 43, 34, 0.08) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(46, 43, 34, 0.08) 1px, transparent 1px);
+    }
+  </style>
 </head>
-
-<body class="min-h-screen flex flex-col overflow-x-hidden bg-stars">
+<body class="bg-[#0E0D0A] text-[#EDE0C4] min-h-screen flex flex-col relative bg-grid">
 
   <Nav />
 
-  <!-- Ambient blobs -->
-  <div class="fixed inset-0 pointer-events-none overflow-hidden z-0" aria-hidden="true">
-    <div class="absolute -top-40 left-1/2 -translate-x-1/2 w-[900px] h-[500px] rounded-full opacity-[0.07]"
-      style="background: radial-gradient(ellipse, #F0B840 0%, transparent 70%);"></div>
-    <div class="absolute top-1/3 -left-48 w-[500px] h-[500px] rounded-full opacity-[0.05]"
-      style="background: radial-gradient(ellipse, #60A8FF 0%, transparent 70%);"></div>
-    <div class="absolute top-1/3 -right-48 w-[500px] h-[500px] rounded-full opacity-[0.05]"
-      style="background: radial-gradient(ellipse, #3DDBA0 0%, transparent 70%);"></div>
-  </div>
-
-  <main class="flex-1 flex flex-col items-center px-6 py-20 max-w-5xl mx-auto w-full z-10 relative">
-
-    <!-- ── Hero ── -->
-    <section class="text-center mb-16 anim-up w-full">
-
-      <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-[#2A3660] bg-[#0B0E1A] text-[10px] font-mono text-[#8BA4CC] tracking-widest uppercase mb-8">
-        <span class="w-1.5 h-1.5 rounded-full bg-[#3DDBA0] pulse-ring inline-block"></span>
-        Visual Etymology Explorer &nbsp;·&nbsp; Powered by Wiktionary
-      </div>
-
-      <h1 class="text-7xl sm:text-[100px] font-display font-bold tracking-tighter leading-none mb-6">
-        <span class="text-shimmer">Root</span><span class="text-[#EEF2FF]">word</span>
+  <main class="flex-1 flex flex-col items-center justify-center px-6 py-16 max-w-5xl mx-auto z-10">
+    
+    {/* Hero Logo */}
+    <div class="text-center mb-12 select-none">
+      <h1 class="text-6xl sm:text-7xl font-serif font-semibold text-[#C4973A] tracking-wider mb-4 animate-fade-in">
+        Root<span class="text-[#EDE0C4]">word</span>
       </h1>
-
-      <p class="text-xl sm:text-2xl font-serif italic text-[#8BA4CC] mb-3">
+      <p class="text-sm sm:text-base font-mono text-[#8A7D5E] tracking-widest uppercase">
         Every word has ancestors.
       </p>
-      <p class="text-sm font-mono text-[#3D5480] tracking-wide">
-        Type any English word &nbsp;·&nbsp; Watch its tree grow &nbsp;·&nbsp; Explore 5,000+ years of language history
-      </p>
-    </section>
-
-    <!-- ── Search ── -->
-    <section class="w-full max-w-2xl mb-5 anim-up" style="animation-delay:0.1s">
-      <SearchBar client:load placeholder="try  'philosophy'  or  'salary'…" />
-    </section>
-
-    <!-- Ticker -->
-    <div class="flex items-center gap-2 font-mono text-xs text-[#3D5480] mb-20 anim-in" style="animation-delay:0.2s">
-      <span>popular:</span>
-      <span id="ticker-word" class="text-[#F0B840] font-medium italic transition-all duration-300">philosophy</span>
     </div>
 
-    <!-- ── Language family legend ── -->
-    <section class="w-full mb-16 anim-up" style="animation-delay:0.22s">
-      <div class="flex items-center gap-4 mb-6">
-        <div class="flex-1 h-px" style="background: linear-gradient(90deg, transparent, rgba(42,54,96,0.8), transparent);"></div>
-        <span class="text-[11px] font-mono text-[#3D5480] uppercase tracking-[0.2em] shrink-0">Language Families</span>
-        <div class="flex-1 h-px" style="background: linear-gradient(90deg, transparent, rgba(42,54,96,0.8), transparent);"></div>
-      </div>
+    {/* Search Box Console */}
+    <div class="w-full flex justify-center mb-6">
+      <SearchBar client:load placeholder="type any English word..." />
+    </div>
 
-      <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-2">
-        {[
-          { label: 'Modern English', color: '#F0B840', icon: '🏴󠁧󠁢󠁥󠁮󠁧󠁿' },
-          { label: 'Latin / French', color: '#28C068', icon: '🏛️' },
-          { label: 'Ancient Greek', color: '#60A8FF', icon: '🏺' },
-          { label: 'Proto-Germanic', color: '#C08040', icon: '⚔️' },
-          { label: 'Proto-Indo-Euro', color: '#E05040', icon: '🌍' },
-          { label: 'Old Norse', color: '#28D0A8', icon: '🪓' },
-          { label: 'Arabic', color: '#B878F0', icon: '🌙' },
-        ].map(f => (
-          <div class="flex items-center gap-2 bg-[#0B0E1A] border border-[#1E2848] rounded-lg px-3 py-2">
-            <span class="text-sm">{f.icon}</span>
-            <div>
-              <div class="w-2 h-2 rounded-full mb-0.5" style={`background:${f.color}; box-shadow: 0 0 6px ${f.color}80;`}></div>
-              <div class="text-[9px] font-mono leading-none" style={`color:${f.color}CC;`}>{f.label}</div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
+    {/* Rotating terms ticker */}
+    <div class="h-6 mb-16 flex items-center justify-center font-mono text-xs text-[#4A4030] gap-2 select-none">
+      <span>try:</span>
+      <span id="ticker-word" class="text-[#C4973A] font-medium transition-all duration-300 opacity-100 italic">philosophy</span>
+    </div>
 
-    <!-- ── Featured Words ── -->
-    <section class="w-full anim-up" style="animation-delay:0.3s">
-      <div class="flex items-center gap-4 mb-8">
-        <div class="flex-1 h-px" style="background: linear-gradient(90deg, transparent, rgba(42,54,96,0.8), transparent);"></div>
-        <span class="text-[11px] font-mono text-[#3D5480] uppercase tracking-[0.2em] shrink-0">Featured Ancestries</span>
-        <div class="flex-1 h-px" style="background: linear-gradient(90deg, transparent, rgba(42,54,96,0.8), transparent);"></div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-        {featuredData.map((data, i) => data && (
-          <a href={`/explore/${data.word}`}
-            class="group gradient-border bg-[#0E1224] rounded-2xl p-6 flex flex-col card-glow transition-all duration-300 hover:-translate-y-1"
-            style={`animation-delay: ${0.35 + i * 0.08}s`}
+    {/* Featured Words Section */}
+    <div class="w-full">
+      <h3 class="text-center text-xs font-mono text-[#4A4030] uppercase tracking-widest mb-8">
+        Featured Ancestries
+      </h3>
+      
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {featuredData.map((data) => data && (
+          <a 
+            href={`/explore/${data.word}`} 
+            class="bg-[#1A1810] border border-[#2E2B22] hover:border-[#C4973A] p-6 rounded flex flex-col justify-between text-left transition-aesthetic parchment-glow parchment-glow-hover group"
           >
-            <div class="flex justify-between items-start mb-4">
-              <h4 class="text-2xl font-serif font-semibold text-[#EEF2FF] capitalize group-hover:text-[#F0B840] transition-colors duration-200">
-                {data.word}
-              </h4>
-              <span class="text-[10px] font-mono text-[#3D5480] border border-[#1E2848] px-2 py-0.5 rounded-md bg-[#06080F] shrink-0 ml-2">
-                {data.ipa}
-              </span>
-            </div>
-
-            <p class="text-sm font-serif italic text-[#8BA4CC] line-clamp-2 mb-4 leading-relaxed flex-1">
-              &ldquo;{data.definition.replace(/<[^>]*>/g, '').slice(0, 110)}&hellip;&rdquo;
-            </p>
-
-            <!-- Language path breadcrumb -->
-            <div class="flex items-center gap-1 flex-wrap mb-5">
-              {data.languagePath.slice(0, 4).map((lang, li) => (
-                <span class="flex items-center gap-1">
-                  <span class="text-[9px] font-mono text-[#3D5480] bg-[#0B0E1A] border border-[#1E2848] px-1.5 py-0.5 rounded">
-                    {lang.replace(/-/g, ' ')}
-                  </span>
-                  {li < Math.min(data.languagePath.length, 4) - 1 && (
-                    <span class="text-[#1E2848] text-[9px]">→</span>
-                  )}
+            <div>
+              <div class="flex justify-between items-start mb-3">
+                <h4 class="text-xl font-serif font-medium text-[#EDE0C4] capitalize group-hover:text-[#C4973A] transition-colors">
+                  {data.word}
+                </h4>
+                <span class="text-[10px] font-mono text-[#8A7D5E] border border-[#2E2B22] px-1.5 py-0.5 bg-[#0E0D0A] rounded">
+                  {data.ipa}
                 </span>
-              ))}
+              </div>
+              <p class="text-xs font-serif italic text-[#8A7D5E] line-clamp-3 mb-6 leading-relaxed">
+                &ldquo;{data.definition}&rdquo;
+              </p>
             </div>
-
-            <div class="flex items-center justify-between border-t border-[#1E2848] pt-4 text-[10px] font-mono text-[#3D5480]">
-              <span>{data.rootDepth} generations deep</span>
-              <span class="text-[#F0B840] group-hover:translate-x-1.5 transition-transform duration-200">explore →</span>
+            
+            <div class="flex items-center justify-between border-t border-[#181614] pt-4 text-[10px] font-mono text-[#4A4030] group-hover:text-[#8A7D5E] transition-colors">
+              <span>{data.rootDepth} generations</span>
+              <span>explore ➜</span>
             </div>
           </a>
         ))}
       </div>
-    </section>
-
-    <!-- ── Feature strips ── -->
-    <section class="w-full mt-16 grid grid-cols-1 sm:grid-cols-3 gap-4 anim-in" style="animation-delay:0.5s">
-      {[
-        { icon: '🌳', color: '#3DDBA0', title: 'Real Botanical Trees', desc: 'Roots at the base, ancestors branching upward — just like a real tree.' },
-        { icon: '💎', color: '#60A8FF', title: 'Jewel-Coded Languages', desc: 'Each language family glows in its own unique color for instant recognition.' },
-        { icon: '✶', color: '#F0B840', title: 'Reconstructed Roots', desc: 'Dashed outlines mark proto-language forms that linguists reconstructed.' },
-      ].map(f => (
-        <div class="flex gap-4 p-5 rounded-2xl bg-[#0B0E1A] border border-[#1E2848]">
-          <span class="text-3xl shrink-0 mt-0.5">{f.icon}</span>
-          <div>
-            <div class="text-sm font-display font-semibold text-[#EEF2FF] mb-1" style={`color:${f.color}`}>{f.title}</div>
-            <div class="text-xs font-mono text-[#3D5480] leading-relaxed">{f.desc}</div>
-          </div>
-        </div>
-      ))}
-    </section>
+    </div>
 
   </main>
 
-  <!-- Footer -->
-  <footer class="border-t border-[#1E2848] py-8 relative z-10 mt-auto">
-    <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[10px] font-mono text-[#3D5480]">
-      <p>© 2026 Rootword · MIT License · Built with Astro, React, D3.js & Tailwind CSS v4</p>
-      <div class="flex gap-5">
-        <a href="/languages" class="hover:text-[#8BA4CC] transition-colors">language browser</a>
-        <span class="text-[#1E2848]">·</span>
-        <a href="https://github.com/yourusername/rootword" class="hover:text-[#8BA4CC] transition-colors">github</a>
+  {/* Footer */}
+  <footer class="border-t border-[#181614] py-8 text-center text-[10px] font-mono text-[#4A4030] select-none mt-auto">
+    <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <p>© 2026 Rootword. MIT License. Built with Astro, React, D3.js, & Tailwind CSS v4.</p>
+      <div class="flex gap-4">
+        <a href="/languages" class="hover:text-[#8A7D5E] transition-colors">language browser</a>
+        <span>•</span>
+        <a href="https://github.com/yourusername/rootword" class="hover:text-[#8A7D5E] transition-colors">github contributors</a>
       </div>
     </div>
   </footer>
 
+  {/* Inline script for dynamic ticker example rotating terms */}
   <script is:inline>
-    const words = ["philosophy","serendipity","muscle","tragedy","window","salary","paradise","academy","carnival","disaster"];
+    const words = ["philosophy", "serendipity", "muscle", "tragedy", "window", "salary"];
     let idx = 0;
     const el = document.getElementById("ticker-word");
     if (el) {
       setInterval(() => {
-        el.style.opacity = "0"; el.style.transform = "translateY(-6px)";
+        el.style.opacity = "0";
         setTimeout(() => {
           idx = (idx + 1) % words.length;
           el.textContent = words[idx];
-          el.style.opacity = "1"; el.style.transform = "translateY(0)";
-        }, 280);
-      }, 3200);
+          el.style.opacity = "1";
+        }, 300);
+      }, 3500);
     }
   </script>
+
 </body>
 </html>
