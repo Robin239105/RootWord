@@ -27,3 +27,5 @@ pnpm-debug.log*
 scratch/
 .vscode/
 
+# Vercel output and cache
+.vercel/
