@@ -1,0 +1,40 @@
+{
+  "word": "galaxy",
+  "ipa": "/.../",
+  "partOfSpeech": "noun",
+  "definition": "The Milky Way; the apparent band of concentrated stars which appears in the night sky over earth.",
+  "firstAttestedCentury": "Attested historically",
+  "rootDepth": 3,
+  "languagePath": ["proto-indo-european", "latin", "english"],
+  "tree": {
+    "id": "galaxy-en",
+    "word": "galaxy",
+    "language": "english",
+    "era": "Modern English",
+    "meaning": "current form and definition",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "galaxyus-latin-0-kzc0",
+        "word": "*galaxyus",
+        "language": "latin",
+        "era": "Classical Latin",
+        "meaning": "attested ancestral form",
+        "isReconstructed": false,
+        "children": [
+          {
+            "id": "galaxy-proto-indo-european-1-4ipn",
+            "word": "*galaxy-",
+            "language": "proto-indo-european",
+            "era": "Proto-Indo-European ✶",
+            "meaning": "ancestral root",
+            "isReconstructed": true,
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "cognates": ["lactate", "lactose", "galactic"],
+  "contributors": ["seed-curator-bot", "wiktionary-api"]
+}

@@ -5,28 +5,37 @@ import { getAllSeedWords } from '../lib/etymology';
 const seedCount = getAllSeedWords().length;
 ---
 
-<header class="h-14 border-b border-[#181614] bg-[#0E0D0A]/90 backdrop-blur-md px-6 flex items-center justify-between sticky top-0 z-50">
+<header
+  class="h-14 border-b border-[#181614] bg-[#0E0D0A]/90 backdrop-blur-md px-6 flex items-center justify-between sticky top-0 z-50"
+>
   <div class="flex items-center gap-6">
-    <a href="/" class="text-xl font-serif font-semibold text-[#C4973A] tracking-wide hover:opacity-90 transition-opacity">
+    <a
+      href="/"
+      class="text-xl font-serif font-semibold text-[#C4973A] tracking-wide hover:opacity-90 transition-opacity"
+    >
       Root<span class="text-[#EDE0C4]">word</span>
     </a>
-    
+
     <nav class="hidden md:flex items-center gap-5 text-xs font-mono text-[#8A7D5E]">
       <a href="/languages" class="hover:text-[#EDE0C4] transition-colors">languages</a>
-      <a href="/explore/philosophy" class="hover:text-[#EDE0C4] transition-colors">explore philosophy</a>
+      <a href="/explore/philosophy" class="hover:text-[#EDE0C4] transition-colors"
+        >explore philosophy</a
+      >
     </nav>
   </div>
 
   <div class="flex items-center gap-4 text-xs font-mono">
-    <div class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-[#1A1810] border border-[#2E2B22] rounded-full text-[#8A7D5E]">
+    <div
+      class="hidden sm:flex items-center gap-1.5 px-2.5 py-1 bg-[#1A1810] border border-[#2E2B22] rounded-full text-[#8A7D5E]"
+    >
       <span class="w-1.5 h-1.5 rounded-full bg-[#C4973A] animate-pulse"></span>
       <span>{seedCount} seeds curated</span>
     </div>
-    
-    <a 
-      href="https://github.com/yourusername/rootword" 
-      target="_blank" 
-      rel="noopener noreferrer" 
+
+    <a
+      href="https://github.com/yourusername/rootword"
+      target="_blank"
+      rel="noopener noreferrer"
       class="text-[#8A7D5E] hover:text-[#EDE0C4] border border-[#2E2B22] hover:border-[#C4973A] rounded px-2.5 py-1 transition-aesthetic bg-[#0E0D0A]"
     >
       github

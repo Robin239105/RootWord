@@ -41,11 +41,14 @@ export default function EtymologyTree({ data }: Props) {
       const innerH = height - MARGIN.top - MARGIN.bottom;
 
       // Build D3 hierarchy — children are ancestor branches
-      const root = d3.hierarchy<EtymNode>(data.tree, d => (d.children && d.children.length > 0 ? d.children : null));
+      const root = d3.hierarchy<EtymNode>(data.tree, (d) =>
+        d.children && d.children.length > 0 ? d.children : null
+      );
       const nodeCount = root.descendants().length;
 
       // Tree layout — vertical (root at top, ancestors below)
-      const treeLayout = d3.tree<EtymNode>()
+      const treeLayout = d3
+        .tree<EtymNode>()
         .size([innerW, innerH])
         .separation((a, b) => (a.parent === b.parent ? 1.6 : 2.2));
 
@@ -63,17 +66,20 @@ export default function EtymologyTree({ data }: Props) {
 
       // Background subtle grid
       const defs = svg.append('defs');
-      const pattern = defs.append('pattern')
+      const pattern = defs
+        .append('pattern')
         .attr('id', 'grid')
         .attr('width', 40)
         .attr('height', 40)
         .attr('patternUnits', 'userSpaceOnUse');
-      pattern.append('path')
+      pattern
+        .append('path')
         .attr('d', 'M 40 0 L 0 0 0 40')
         .attr('fill', 'none')
         .attr('stroke', '#1E1C16')
         .attr('stroke-width', 0.5);
-      svg.append('rect')
+      svg
+        .append('rect')
         .attr('width', width)
         .attr('height', height)
         .attr('fill', 'url(#grid)')
@@ -81,20 +87,21 @@ export default function EtymologyTree({ data }: Props) {
 
       // Drop shadow filter
       const filter = defs.append('filter').attr('id', 'node-shadow');
-      filter.append('feDropShadow')
+      filter
+        .append('feDropShadow')
         .attr('dx', 0)
         .attr('dy', 3)
         .attr('stdDeviation', 6)
         .attr('flood-color', '#000')
         .attr('flood-opacity', 0.5);
 
-      const g = svg.append('g')
-        .attr('transform', `translate(${MARGIN.left},${MARGIN.top})`);
+      const g = svg.append('g').attr('transform', `translate(${MARGIN.left},${MARGIN.top})`);
 
       // Draw links (curved connectors)
-      const linkGen = d3.linkVertical<d3.HierarchyPointLink<EtymNode>, d3.HierarchyPointNode<EtymNode>>()
-        .x(d => d.x)
-        .y(d => d.y);
+      const linkGen = d3
+        .linkVertical<d3.HierarchyPointLink<EtymNode>, d3.HierarchyPointNode<EtymNode>>()
+        .x((d) => d.x)
+        .y((d) => d.y);
 
       g.selectAll('.link')
         .data(root.links())
@@ -104,7 +111,7 @@ export default function EtymologyTree({ data }: Props) {
         .attr('fill', 'none')
         .attr('stroke', '#6A6040')
         .attr('stroke-width', 1.8)
-        .attr('stroke-dasharray', d => d.target.data.isReconstructed ? '6,4' : 'none')
+        .attr('stroke-dasharray', (d) => (d.target.data.isReconstructed ? '6,4' : 'none'))
         .attr('opacity', 0);
 
       // Animate links in
@@ -115,43 +122,47 @@ export default function EtymologyTree({ data }: Props) {
         .attr('opacity', 0.75);
 
       // Draw node groups
-      const node = g.selectAll('.node')
+      const node = g
+        .selectAll('.node')
         .data(root.descendants())
         .join('g')
         .attr('class', 'node')
-        .attr('transform', d => `translate(${d.x},${d.y})`)
+        .attr('transform', (d) => `translate(${d.x},${d.y})`)
         .style('cursor', 'pointer')
         .on('click', (_, d) => setSelected(d.data));
 
       // Node background rect
-      node.append('rect')
+      node
+        .append('rect')
         .attr('x', -NODE_W / 2)
         .attr('y', -NODE_H / 2)
         .attr('width', NODE_W)
         .attr('height', NODE_H)
         .attr('rx', 9)
-        .attr('fill', d => {
+        .attr('fill', (d) => {
           const def = LANGUAGE_DEFS[d.data.language] ?? LANGUAGE_DEFS['unknown'];
           return def.fill;
         })
-        .attr('stroke', d => {
+        .attr('stroke', (d) => {
           const def = LANGUAGE_DEFS[d.data.language] ?? LANGUAGE_DEFS['unknown'];
           return def.stroke;
         })
-        .attr('stroke-width', d => d.depth === 0 ? 2.5 : 1.5)
-        .attr('stroke-dasharray', d => d.data.isReconstructed ? '6,4' : 'none')
+        .attr('stroke-width', (d) => (d.depth === 0 ? 2.5 : 1.5))
+        .attr('stroke-dasharray', (d) => (d.data.isReconstructed ? '6,4' : 'none'))
         .attr('filter', 'url(#node-shadow)')
         .attr('opacity', 0);
 
       // Animate node rects in
-      node.selectAll('rect')
+      node
+        .selectAll('rect')
         .transition()
         .duration(500)
         .delay((_, i) => i * 60 + 200)
         .attr('opacity', 1);
 
       // Root node golden top ribbon
-      node.filter(d => d.depth === 0)
+      node
+        .filter((d) => d.depth === 0)
         .append('rect')
         .attr('x', -NODE_W / 2)
         .attr('y', -NODE_H / 2)
@@ -161,57 +172,64 @@ export default function EtymologyTree({ data }: Props) {
         .attr('fill', '#C4973A');
 
       // Word label
-      node.append('text')
+      node
+        .append('text')
         .attr('dy', '-0.15em')
         .attr('text-anchor', 'middle')
         .attr('dominant-baseline', 'middle')
-        .attr('font-size', d => d.depth === 0 ? 14.5 : 13)
-        .attr('font-weight', d => d.depth === 0 ? '600' : '400')
+        .attr('font-size', (d) => (d.depth === 0 ? 14.5 : 13))
+        .attr('font-weight', (d) => (d.depth === 0 ? '600' : '400'))
         .attr('font-family', 'Lora, Georgia, serif')
-        .attr('fill', d => {
+        .attr('fill', (d) => {
           const def = LANGUAGE_DEFS[d.data.language] ?? LANGUAGE_DEFS['unknown'];
           return def.text;
         })
         .attr('pointer-events', 'none')
-        .text(d => {
+        .text((d) => {
           const w = d.data.word;
           return w.length > 18 ? w.slice(0, 16) + '…' : w;
         });
 
       // Language sublabel
-      node.append('text')
+      node
+        .append('text')
         .attr('dy', '1.3em')
         .attr('text-anchor', 'middle')
         .attr('dominant-baseline', 'middle')
         .attr('font-size', 8.5)
         .attr('font-family', 'JetBrains Mono, monospace')
-        .attr('fill', d => {
+        .attr('fill', (d) => {
           const def = LANGUAGE_DEFS[d.data.language] ?? LANGUAGE_DEFS['unknown'];
           return def.stroke;
         })
         .attr('pointer-events', 'none')
         .attr('opacity', 0.9)
-        .text(d => {
+        .text((d) => {
           const label = formatLanguageLabel(d.data.language, undefined);
           return label.length > 22 ? label.slice(0, 20) + '…' : label;
         });
 
       // Hover interaction highlight
-      node.on('mouseenter', function(_, d) {
-        d3.select(this).select('rect')
-          .transition().duration(150)
-          .attr('stroke-width', d.depth === 0 ? 3.5 : 2.5)
-          .attr('opacity', 0.95);
-      }).on('mouseleave', function(_, d) {
-        d3.select(this).select('rect')
-          .transition().duration(150)
-          .attr('stroke-width', d.depth === 0 ? 2.5 : 1.5)
-          .attr('opacity', 1);
-      });
+      node
+        .on('mouseenter', function (_, d) {
+          d3.select(this)
+            .select('rect')
+            .transition()
+            .duration(150)
+            .attr('stroke-width', d.depth === 0 ? 3.5 : 2.5)
+            .attr('opacity', 0.95);
+        })
+        .on('mouseleave', function (_, d) {
+          d3.select(this)
+            .select('rect')
+            .transition()
+            .duration(150)
+            .attr('stroke-width', d.depth === 0 ? 2.5 : 1.5)
+            .attr('opacity', 1);
+        });
 
       // Debug: log node count to console
       console.log(`[EtymologyTree] Rendered ${nodeCount} nodes, SVG: ${width}x${height}`);
-
     } catch (err) {
       console.error('[EtymologyTree] Render error:', err);
       setError('Failed to render etymology tree. Check console for details.');
@@ -273,16 +291,11 @@ export default function EtymologyTree({ data }: Props) {
             <span>⚠ {error}</span>
           </div>
         ) : (
-          <svg
-            ref={svgRef}
-            style={{ display: 'block', minHeight: `${SVG_HEIGHT}px` }}
-          />
+          <svg ref={svgRef} style={{ display: 'block', minHeight: `${SVG_HEIGHT}px` }} />
         )}
       </div>
 
-      {selected && (
-        <NodeTooltip node={selected} onClose={() => setSelected(null)} />
-      )}
+      {selected && <NodeTooltip node={selected} onClose={() => setSelected(null)} />}
     </div>
   );
 }

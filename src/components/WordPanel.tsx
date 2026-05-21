@@ -30,7 +30,9 @@ export default function WordPanel({ data }: Props) {
 
       {/* Dictionary Definition */}
       <div className="mb-6 pb-6 border-b border-[#2E2B22]">
-        <h4 className="text-[10px] font-mono text-[#4A4030] uppercase tracking-wider mb-2">Definition</h4>
+        <h4 className="text-[10px] font-mono text-[#4A4030] uppercase tracking-wider mb-2">
+          Definition
+        </h4>
         <p className="text-sm font-serif italic text-[#8A7D5E] leading-relaxed">
           &ldquo;{data.definition}&rdquo;
         </p>
@@ -38,23 +40,25 @@ export default function WordPanel({ data }: Props) {
 
       {/* Language Path Migration */}
       <div className="mb-6 pb-6 border-b border-[#2E2B22]">
-        <h4 className="text-[10px] font-mono text-[#4A4030] uppercase tracking-wider mb-3">Ancestral Path</h4>
+        <h4 className="text-[10px] font-mono text-[#4A4030] uppercase tracking-wider mb-3">
+          Ancestral Path
+        </h4>
         <div className="flex flex-col gap-2">
           {data.languagePath.map((lang, index) => {
             const def = LANGUAGE_DEFS[lang] ?? LANGUAGE_DEFS['unknown'];
             const isLast = index === data.languagePath.length - 1;
             return (
               <div key={lang} className="flex items-center gap-2.5">
-                <div 
+                <div
                   className="w-2.5 h-2.5 rounded-full border border-current flex-shrink-0"
                   style={{ color: def.stroke, backgroundColor: def.fill }}
                 />
-                <span className={`text-xs font-mono ${isLast ? 'text-[#EDE0C4] font-medium' : 'text-[#8A7D5E]'}`}>
+                <span
+                  className={`text-xs font-mono ${isLast ? 'text-[#EDE0C4] font-medium' : 'text-[#8A7D5E]'}`}
+                >
                   {def.name}
                 </span>
-                {!isLast && (
-                  <span className="text-[10px] text-[#4A4030] ml-auto">↓</span>
-                )}
+                {!isLast && <span className="text-[10px] text-[#4A4030] ml-auto">↓</span>}
               </div>
             );
           })}
@@ -79,7 +83,9 @@ export default function WordPanel({ data }: Props) {
 
       {/* Cognates list */}
       <div>
-        <h4 className="text-[10px] font-mono text-[#4A4030] uppercase tracking-wider mb-2.5">Related Cognates</h4>
+        <h4 className="text-[10px] font-mono text-[#4A4030] uppercase tracking-wider mb-2.5">
+          Related Cognates
+        </h4>
         {data.cognates.length > 0 ? (
           <div className="flex flex-wrap gap-2">
             {data.cognates.map((cog) => (
@@ -93,7 +99,9 @@ export default function WordPanel({ data }: Props) {
             ))}
           </div>
         ) : (
-          <span className="text-xs font-mono text-[#4A4030] italic">No direct cognates indexed.</span>
+          <span className="text-xs font-mono text-[#4A4030] italic">
+            No direct cognates indexed.
+          </span>
         )}
       </div>
 

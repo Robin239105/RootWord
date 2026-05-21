@@ -16,7 +16,7 @@ const VALID_LANGUAGES = new Set([
   'proto-indo-european',
   'arabic',
   'old-norse',
-  'unknown'
+  'unknown',
 ]);
 
 function validateNode(node, idSet, filePath) {
@@ -59,9 +59,12 @@ function validateFile(filePath) {
 
   if (!data.word || typeof data.word !== 'string') throw new Error(`Missing 'word'`);
   if (!data.ipa || typeof data.ipa !== 'string') throw new Error(`Missing 'ipa'`);
-  if (!data.partOfSpeech || typeof data.partOfSpeech !== 'string') throw new Error(`Missing 'partOfSpeech'`);
-  if (!data.definition || typeof data.definition !== 'string') throw new Error(`Missing 'definition'`);
-  if (!data.firstAttestedCentury || typeof data.firstAttestedCentury !== 'string') throw new Error(`Missing 'firstAttestedCentury'`);
+  if (!data.partOfSpeech || typeof data.partOfSpeech !== 'string')
+    throw new Error(`Missing 'partOfSpeech'`);
+  if (!data.definition || typeof data.definition !== 'string')
+    throw new Error(`Missing 'definition'`);
+  if (!data.firstAttestedCentury || typeof data.firstAttestedCentury !== 'string')
+    throw new Error(`Missing 'firstAttestedCentury'`);
   if (typeof data.rootDepth !== 'number') throw new Error(`Missing 'rootDepth'`);
 
   if (!Array.isArray(data.languagePath)) throw new Error(`'languagePath' must be an array`);
@@ -82,7 +85,7 @@ function validateFile(filePath) {
 }
 
 try {
-  const files = fs.readdirSync(SEEDS_DIR).filter(f => f.endsWith('.json') && !f.startsWith('_'));
+  const files = fs.readdirSync(SEEDS_DIR).filter((f) => f.endsWith('.json') && !f.startsWith('_'));
   console.log(`\x1b[33mFound ${files.length} seeds to validate...\x1b[0m`);
 
   let count = 0;
@@ -100,6 +103,6 @@ try {
 
   console.log(`\x1b[32;1mAll ${count} seeds are 100% compliant with schema types!\x1b[0m`);
 } catch (err) {
-  console.error("Error reading seeds folder:", err.message);
+  console.error('Error reading seeds folder:', err.message);
   process.exit(1);
 }

@@ -1,0 +1,40 @@
+{
+  "word": "cliche",
+  "ipa": "/.../",
+  "partOfSpeech": "noun",
+  "definition": "Alternative form of cliché.",
+  "firstAttestedCentury": "Attested historically",
+  "rootDepth": 3,
+  "languagePath": ["latin", "old-french", "english"],
+  "tree": {
+    "id": "cliche-en",
+    "word": "cliche",
+    "language": "english",
+    "era": "Modern English",
+    "meaning": "current form and definition",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "cliche-old-french-0-xwut",
+        "word": "cliche",
+        "language": "old-french",
+        "era": "Old French",
+        "meaning": "Anglo-Norman transition form",
+        "isReconstructed": false,
+        "children": [
+          {
+            "id": "cliche-latin-1-rzsv",
+            "word": "cliche",
+            "language": "latin",
+            "era": "Classical Latin",
+            "meaning": "classical root",
+            "isReconstructed": false,
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "cognates": ["click", "stereotype"],
+  "contributors": ["seed-curator-bot", "wiktionary-api"]
+}

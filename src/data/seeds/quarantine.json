@@ -1,0 +1,40 @@
+{
+  "word": "quarantine",
+  "ipa": "/.../",
+  "partOfSpeech": "noun",
+  "definition": "A period of 40 days, particularly The 40-day period during which a widow is entitled to remain in her deceased husband's home while any dower is collected and returned. The 40-day period of isolation required after 1448 at Venice's lazaret to avoid renewed outbreaks of the bubonic plague and identical policies in other locations. A 40-day period formerly imposed by the French king upon warring nobles during which they were forbidden from exacting revenge or continuing to fight.",
+  "firstAttestedCentury": "Attested historically",
+  "rootDepth": 3,
+  "languagePath": ["proto-indo-european", "latin", "english"],
+  "tree": {
+    "id": "quarantine-en",
+    "word": "quarantine",
+    "language": "english",
+    "era": "Modern English",
+    "meaning": "current form and definition",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "quarantineus-latin-0-cfiw",
+        "word": "*quarantineus",
+        "language": "latin",
+        "era": "Classical Latin",
+        "meaning": "attested ancestral form",
+        "isReconstructed": false,
+        "children": [
+          {
+            "id": "quarantine-proto-indo-european-1-biok",
+            "word": "*quarantine-",
+            "language": "proto-indo-european",
+            "era": "Proto-Indo-European ✶",
+            "meaning": "ancestral root",
+            "isReconstructed": true,
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "cognates": ["quadrant", "quad", "forty"],
+  "contributors": ["seed-curator-bot", "wiktionary-api"]
+}

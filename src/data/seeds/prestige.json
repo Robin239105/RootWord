@@ -1,0 +1,79 @@
+{
+  "word": "prestige",
+  "ipa": "/prɛˈstiːʒ/",
+  "partOfSpeech": "noun",
+  "definition": "Widespread respect and admiration felt for someone or something on the basis of their achievements or quality. Historically meaning 'illusion' or 'juggling trick'.",
+  "firstAttestedCentury": "17th century",
+  "rootDepth": 4,
+  "languagePath": ["proto-indo-european", "latin", "old-french", "english"],
+  "tree": {
+    "id": "prestige-en",
+    "word": "prestige",
+    "language": "english",
+    "era": "17th century CE",
+    "meaning": "widespread reputation, status; originally illusion or trick",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "prestige-of",
+        "word": "prestige",
+        "language": "old-french",
+        "era": "Middle French",
+        "meaning": "illusion, trick, glamour",
+        "isReconstructed": false,
+        "children": [
+          {
+            "id": "praestigium-la",
+            "word": "praestīgium",
+            "language": "latin",
+            "era": "Classical Latin",
+            "meaning": "delusion, illusion, trick, sleight of hand",
+            "isReconstructed": false,
+            "children": [
+              {
+                "id": "praestringo-la",
+                "word": "praestringō",
+                "language": "latin",
+                "era": "Classical Latin",
+                "meaning": "to blind, dazzle, bind fast",
+                "isReconstructed": false,
+                "children": [
+                  {
+                    "id": "prae-la",
+                    "word": "prae-",
+                    "language": "latin",
+                    "era": "Classical Latin",
+                    "meaning": "before, in front of",
+                    "isReconstructed": false,
+                    "children": []
+                  },
+                  {
+                    "id": "stringo-la",
+                    "word": "stringō",
+                    "language": "latin",
+                    "era": "Classical Latin",
+                    "meaning": "to draw tight, bind, tie",
+                    "isReconstructed": false,
+                    "children": [
+                      {
+                        "id": "strenk-pie",
+                        "word": "*strenk-",
+                        "language": "proto-indo-european",
+                        "era": "Proto-Indo-European ✶",
+                        "meaning": "tight, narrow, to bind",
+                        "isReconstructed": true,
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "cognates": ["prestidigitation", "illusion", "stringent", "strict", "strain"],
+  "contributors": ["seed-curator-bot", "wiktionary-api"]
+}

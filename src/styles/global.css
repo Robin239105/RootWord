@@ -1,35 +1,35 @@
 @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,600;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
-@import "tailwindcss";
+@import 'tailwindcss';
 
 :root {
-  --bg-base:       #0E0D0A;   /* near-black warm */
-  --bg-surface:    #1A1810;   /* dark parchment */
-  --bg-elevated:   #131210;   /* slightly lifted */
-  --border:        #2E2B22;   /* warm dark border */
-  --border-faint:  #181614;
-  --text-primary:  #EDE0C4;   /* warm cream */
-  --text-secondary:#8A7D5E;   /* aged paper tone */
-  --text-muted:    #4A4030;
-  --accent:        #C4973A;   /* amber gold */
-  --accent-bright: #E8B84B;
+  --bg-base: #0e0d0a; /* near-black warm */
+  --bg-surface: #1a1810; /* dark parchment */
+  --bg-elevated: #131210; /* slightly lifted */
+  --border: #2e2b22; /* warm dark border */
+  --border-faint: #181614;
+  --text-primary: #ede0c4; /* warm cream */
+  --text-secondary: #8a7d5e; /* aged paper tone */
+  --text-muted: #4a4030;
+  --accent: #c4973a; /* amber gold */
+  --accent-bright: #e8b84b;
 
   /* Language colors mapping */
-  --node-english: #C4973A;
-  --node-english-fill: #1C180A;
-  --node-english-text: #EDE0C4;
+  --node-english: #c4973a;
+  --node-english-fill: #1c180a;
+  --node-english-text: #ede0c4;
 
-  --node-latin: #3A6A30;
+  --node-latin: #3a6a30;
   --node-latin-fill: #111510;
-  --node-latin-text: #B8D8A0;
+  --node-latin-text: #b8d8a0;
 
-  --node-greek: #2A4882;
-  --node-greek-fill: #0E1018;
-  --node-greek-text: #A0B8E0;
+  --node-greek: #2a4882;
+  --node-greek-fill: #0e1018;
+  --node-greek-text: #a0b8e0;
 
-  --node-proto: #221E14;
-  --node-proto-fill: #0A0908;
-  --node-proto-text: #4A3E28;
+  --node-proto: #221e14;
+  --node-proto-fill: #0a0908;
+  --node-proto-text: #4a3e28;
 }
 
 body {
@@ -50,11 +50,15 @@ body {
 
 /* Medieval parchment glow effect */
 .parchment-glow {
-  box-shadow: 0 0 15px rgba(196, 151, 58, 0.05), inset 0 0 20px rgba(196, 151, 58, 0.02);
+  box-shadow:
+    0 0 15px rgba(196, 151, 58, 0.05),
+    inset 0 0 20px rgba(196, 151, 58, 0.02);
 }
 
 .parchment-glow-hover:hover {
-  box-shadow: 0 0 20px rgba(196, 151, 58, 0.08), inset 0 0 30px rgba(196, 151, 58, 0.03);
+  box-shadow:
+    0 0 20px rgba(196, 151, 58, 0.08),
+    inset 0 0 30px rgba(196, 151, 58, 0.03);
 }
 
 /* Custom scrollbars */
@@ -80,7 +84,8 @@ body {
 
 /* Keyframe animations for typewriter or loading indicators */
 @keyframes pulseGlow {
-  0%, 100% {
+  0%,
+  100% {
     opacity: 0.2;
     transform: scale(0.98);
   }
@@ -97,8 +102,38 @@ body {
 /* parchment grid texture */
 .bg-grid {
   background-size: 40px 40px;
-  background-image: 
+  background-image:
     linear-gradient(to right, rgba(46, 43, 34, 0.08) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(46, 43, 34, 0.08) 1px, transparent 1px);
 }
 
+/* Floating gold dust particles animation */
+@keyframes floatDust {
+  0% {
+    transform: translateY(0) translateX(0) scale(1);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.7;
+  }
+  90% {
+    opacity: 0.7;
+  }
+  100% {
+    transform: translateY(-100vh) translateX(50px) scale(0.5);
+    opacity: 0;
+  }
+}
+
+.gold-ember {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background-color: var(--accent);
+  border-radius: 50%;
+  box-shadow:
+    0 0 4px var(--accent),
+    0 0 8px var(--accent-bright);
+  pointer-events: none;
+  animation: floatDust 12s infinite linear;
+}

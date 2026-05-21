@@ -1,0 +1,252 @@
+{
+  "word": "whiskey",
+  "ipa": "/ˈwɪs.ki/",
+  "partOfSpeech": "noun",
+  "definition": "An alcoholic liquor distilled from a fermented mash of grains like barley or rye. Literally from Gaelic meaning 'water of life'.",
+  "firstAttestedCentury": "Attested historically",
+  "rootDepth": 4,
+  "languagePath": ["medieval-latin", "proto-indo-european", "unknown", "english"],
+  "tree": {
+    "id": "whiskey-english-0-vbrh",
+    "word": "whiskey",
+    "language": "english",
+    "era": "English",
+    "meaning": "alcoholic spirit distilled from grain",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "usque-english-1-q2wt",
+        "word": "usque",
+        "language": "english",
+        "era": "English",
+        "meaning": "shortened form of usquebaugh",
+        "isReconstructed": false,
+        "children": [
+          {
+            "id": "usquebaugh-english-2-bvdl",
+            "word": "usquebaugh",
+            "language": "english",
+            "era": "English",
+            "meaning": "anglicized Gaelic spirit",
+            "isReconstructed": false,
+            "children": [
+              {
+                "id": "uiscebeatha-unknown-3-hp07",
+                "word": "uisce beatha",
+                "language": "unknown",
+                "era": "Irish",
+                "meaning": "water of life",
+                "isReconstructed": false,
+                "children": [
+                  {
+                    "id": "uisce-unknown-4-b8fq",
+                    "word": "uisce",
+                    "language": "unknown",
+                    "era": "Irish",
+                    "meaning": "water",
+                    "isReconstructed": false,
+                    "children": [
+                      {
+                        "id": "uisce-unknown-5-zzfh",
+                        "word": "uisce",
+                        "language": "unknown",
+                        "era": "Old Irish",
+                        "meaning": "water",
+                        "isReconstructed": false,
+                        "children": [
+                          {
+                            "id": "udenskyos-proto-indo-european-6-7d2n",
+                            "word": "*udenskyos",
+                            "language": "proto-indo-european",
+                            "era": "Proto-Celtic",
+                            "meaning": "watery",
+                            "isReconstructed": true,
+                            "children": [
+                              {
+                                "id": "wdr-proto-indo-european-7-duxs",
+                                "word": "*wódr̥",
+                                "language": "proto-indo-european",
+                                "era": "Proto-Indo-European",
+                                "meaning": "water",
+                                "isReconstructed": true,
+                                "children": [
+                                  {
+                                    "id": "wed-proto-indo-european-8-wblo",
+                                    "word": "*wed-",
+                                    "language": "proto-indo-european",
+                                    "era": "Proto-Indo-European",
+                                    "meaning": "wet",
+                                    "isReconstructed": true,
+                                    "children": []
+                                  },
+                                  {
+                                    "id": "r-proto-indo-european-8-50ye",
+                                    "word": "*-r̥",
+                                    "language": "proto-indo-european",
+                                    "era": "Proto-Indo-European",
+                                    "meaning": "nominal suffix",
+                                    "isReconstructed": true,
+                                    "children": []
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "beatha-unknown-4-as6j",
+                    "word": "beatha",
+                    "language": "unknown",
+                    "era": "Irish",
+                    "meaning": "life",
+                    "isReconstructed": false,
+                    "children": [
+                      {
+                        "id": "bethu-unknown-5-yfih",
+                        "word": "bethu",
+                        "language": "unknown",
+                        "era": "Old Irish",
+                        "meaning": "life",
+                        "isReconstructed": false,
+                        "children": [
+                          {
+                            "id": "biwotts-proto-indo-european-6-9jco",
+                            "word": "*biwotūts",
+                            "language": "proto-indo-european",
+                            "era": "Proto-Celtic",
+                            "meaning": "lifetime",
+                            "isReconstructed": true,
+                            "children": [
+                              {
+                                "id": "biwos-proto-indo-european-7-n0yn",
+                                "word": "*biwos",
+                                "language": "proto-indo-european",
+                                "era": "Proto-Celtic",
+                                "meaning": "alive",
+                                "isReconstructed": true,
+                                "children": [
+                                  {
+                                    "id": "gihws-proto-indo-european-8-6bnq",
+                                    "word": "*gʷih₃wós",
+                                    "language": "proto-indo-european",
+                                    "era": "Proto-Indo-European",
+                                    "meaning": "alive, living",
+                                    "isReconstructed": true,
+                                    "children": [
+                                      {
+                                        "id": "geyh-proto-indo-european-9-1e7z",
+                                        "word": "*gʷeyh₃-",
+                                        "language": "proto-indo-european",
+                                        "era": "Proto-Indo-European",
+                                        "meaning": "to live",
+                                        "isReconstructed": true,
+                                        "children": []
+                                      },
+                                      {
+                                        "id": "ws-proto-indo-european-9-vrb5",
+                                        "word": "*-wós",
+                                        "language": "proto-indo-european",
+                                        "era": "Proto-Indo-European",
+                                        "meaning": "adjectival suffix",
+                                        "isReconstructed": true,
+                                        "children": []
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              {
+                                "id": "tts-proto-indo-european-7-rv82",
+                                "word": "*-tūts",
+                                "language": "proto-indo-european",
+                                "era": "Proto-Celtic",
+                                "meaning": "abstract noun suffix",
+                                "isReconstructed": true,
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "id": "aquavtae-medieval-latin-4-8mp6",
+                    "word": "aqua vītae",
+                    "language": "medieval-latin",
+                    "era": "Medieval Latin",
+                    "meaning": "water of life",
+                    "isReconstructed": false,
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "uisgebeatha-unknown-3-efcs",
+                "word": "uisge-beatha",
+                "language": "unknown",
+                "era": "Scottish Gaelic",
+                "meaning": "water of life",
+                "isReconstructed": false,
+                "children": [
+                  {
+                    "id": "uisge-unknown-4-b03u",
+                    "word": "uisge",
+                    "language": "unknown",
+                    "era": "Scottish Gaelic",
+                    "meaning": "water",
+                    "isReconstructed": false,
+                    "children": [
+                      {
+                        "id": "uisce-unknown-5-0p9t",
+                        "word": "uisce",
+                        "language": "unknown",
+                        "era": "Old Irish",
+                        "meaning": "water",
+                        "isReconstructed": false,
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "id": "beatha-unknown-4-e436",
+                    "word": "beatha",
+                    "language": "unknown",
+                    "era": "Scottish Gaelic",
+                    "meaning": "life",
+                    "isReconstructed": false,
+                    "children": [
+                      {
+                        "id": "bethu-unknown-5-qxy4",
+                        "word": "bethu",
+                        "language": "unknown",
+                        "era": "Old Irish",
+                        "meaning": "life",
+                        "isReconstructed": false,
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "id": "aquavtae-medieval-latin-4-ynqr",
+                    "word": "aqua vītae",
+                    "language": "medieval-latin",
+                    "era": "Medieval Latin",
+                    "meaning": "water of life",
+                    "isReconstructed": false,
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "cognates": ["water", "vital", "beverage", "hydrant", "biology"],
+  "contributors": ["seed-curator-bot", "wiktionary-api"]
+}

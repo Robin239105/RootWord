@@ -1,0 +1,30 @@
+{
+  "word": "nostalgia",
+  "ipa": "/.../",
+  "partOfSpeech": "noun",
+  "definition": "A longing for home or familiar surroundings; homesickness.",
+  "firstAttestedCentury": "Attested historically",
+  "rootDepth": 2,
+  "languagePath": ["ancient-greek", "english"],
+  "tree": {
+    "id": "nostalgia-en",
+    "word": "nostalgia",
+    "language": "english",
+    "era": "Modern English",
+    "meaning": "current form and definition",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "-ancient-greek-0-ecfe",
+        "word": "&#42;νοσταλγία",
+        "language": "ancient-greek",
+        "era": "Ancient Greek",
+        "meaning": "attested ancestral form",
+        "isReconstructed": false,
+        "children": []
+      }
+    ]
+  },
+  "cognates": ["nostoc", "neuralgia", "algophobia"],
+  "contributors": ["seed-curator-bot", "wiktionary-api"]
+}

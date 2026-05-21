@@ -7,9 +7,7 @@ import type { LanguageFamily } from '../../types/etymology';
 import '../../styles/global.css';
 
 const seedWords = getAllSeedWords();
-const seedsData = await Promise.all(
-  seedWords.map(w => fetchWordData(w))
-);
+const seedsData = await Promise.all(seedWords.map((w) => fetchWordData(w)));
 
 // Group words by their ancestor languages
 const languagesToDisplay: LanguageFamily[] = [
@@ -18,104 +16,114 @@ const languagesToDisplay: LanguageFamily[] = [
   'old-norse',
   'arabic',
   'proto-germanic',
-  'proto-indo-european'
+  'proto-indo-european',
 ];
 
-const languageGroups = languagesToDisplay.reduce((acc, lang) => {
-  const matchingWords = seedsData.filter(data => 
-    data && data.languagePath.includes(lang)
-  ).map(data => data!.word);
-  
-  acc[lang] = matchingWords;
-  return acc;
-}, {} as Record<LanguageFamily, string[]>);
+const languageGroups = languagesToDisplay.reduce(
+  (acc, lang) => {
+    const matchingWords = seedsData
+      .filter((data) => data && data.languagePath.includes(lang))
+      .map((data) => data!.word);
+
+    acc[lang] = matchingWords;
+    return acc;
+  },
+  {} as Record<LanguageFamily, string[]>
+);
 ---
 
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width" />
-  <title>Browse Language Families · Rootword</title>
-  <meta name="description" content="Browse English words by their ancient ancestral branches including Latin, Ancient Greek, Old Norse, and Proto-Indo-European." />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
-</head>
-<body class="bg-[#0E0D0A] text-[#EDE0C4] min-h-screen flex flex-col">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Browse Language Families · Rootword</title>
+    <meta
+      name="description"
+      content="Browse English words by their ancient ancestral branches including Latin, Ancient Greek, Old Norse, and Proto-Indo-European."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-[#0E0D0A] text-[#EDE0C4] min-h-screen flex flex-col">
+    <Nav />
 
-  <Nav />
+    <main class="flex-1 max-w-5xl w-full mx-auto px-6 py-12">
+      <div class="mb-12">
+        <h1 class="text-4xl font-serif font-medium text-[#C4973A] mb-3">Linguistic Branches</h1>
+        <p
+          class="text-xs font-mono text-[#8A7D5E] uppercase tracking-wider max-w-xl leading-relaxed"
+        >
+          Trace how words in our database migrate across historical families. Select any category to
+          view descendants.
+        </p>
+      </div>
 
-  <main class="flex-1 max-w-5xl w-full mx-auto px-6 py-12">
-    
-    <div class="mb-12">
-      <h1 class="text-4xl font-serif font-medium text-[#C4973A] mb-3">
-        Linguistic Branches
-      </h1>
-      <p class="text-xs font-mono text-[#8A7D5E] uppercase tracking-wider max-w-xl leading-relaxed">
-        Trace how words in our database migrate across historical families. Select any category to view descendants.
-      </p>
-    </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {
+          languagesToDisplay.map((lang) => {
+            const def = LANGUAGE_DEFS[lang] ?? LANGUAGE_DEFS['unknown'];
+            const words = languageGroups[lang] || [];
 
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {languagesToDisplay.map((lang) => {
-        const def = LANGUAGE_DEFS[lang] ?? LANGUAGE_DEFS['unknown'];
-        const words = languageGroups[lang] || [];
-        
-        return (
-          <div class="bg-[#1A1810] border border-[#2E2B22] p-6 rounded flex flex-col justify-between parchment-glow select-none">
-            <div>
-              <div class="flex items-center gap-3 mb-4">
-                <span 
-                  class="w-3 h-3 rounded-full border flex-shrink-0"
-                  style={`color: ${def.stroke}; border-color: ${def.stroke}; background-color: ${def.fill};`}
-                />
-                <h3 class="text-xl font-serif font-medium text-[#EDE0C4]">
-                  {def.name}
-                </h3>
-                <span class="text-[9px] font-mono text-[#4A4030] uppercase ml-auto tracking-widest">
-                  {def.family} Family
-                </span>
-              </div>
-              
-              <p class="text-xs font-mono text-[#8A7D5E] mb-6 leading-relaxed">
-                {def.description}
-              </p>
-            </div>
+            return (
+              <div class="bg-[#1A1810] border border-[#2E2B22] p-6 rounded flex flex-col justify-between parchment-glow select-none">
+                <div>
+                  <div class="flex items-center gap-3 mb-4">
+                    <span
+                      class="w-3 h-3 rounded-full border flex-shrink-0"
+                      style={`color: ${def.stroke}; border-color: ${def.stroke}; background-color: ${def.fill};`}
+                    />
+                    <h3 class="text-xl font-serif font-medium text-[#EDE0C4]">{def.name}</h3>
+                    <span class="text-[9px] font-mono text-[#4A4030] uppercase ml-auto tracking-widest">
+                      {def.family} Family
+                    </span>
+                  </div>
 
-            <div>
-              <h5 class="text-[9px] font-mono text-[#4A4030] uppercase tracking-widest mb-3">
-                Descendants in Database ({words.length})
-              </h5>
-              
-              {words.length > 0 ? (
-                <div class="flex flex-wrap gap-2">
-                  {words.map((word) => (
-                    <a 
-                      href={`/explore/${word}`}
-                      class="text-xs font-mono text-[#EDE0C4] hover:text-[#C4973A] bg-[#0E0D0A] hover:bg-[#131210] border border-[#2E2B22] hover:border-[#C4973A] rounded px-2.5 py-1.5 transition-aesthetic block"
-                    >
-                      {word}
-                    </a>
-                  ))}
+                  <p class="text-xs font-mono text-[#8A7D5E] mb-6 leading-relaxed">
+                    {def.description}
+                  </p>
                 </div>
-              ) : (
-                <p class="text-xs font-mono text-[#4A4030] italic">
-                  No seed words currently indexed under this branch.
-                </p>
-              )}
-            </div>
-          </div>
-        );
-      })}
-    </div>
 
-  </main>
+                <div>
+                  <h5 class="text-[9px] font-mono text-[#4A4030] uppercase tracking-widest mb-3">
+                    Descendants in Database ({words.length})
+                  </h5>
 
-  <footer class="border-t border-[#181614] py-8 text-center text-[10px] font-mono text-[#4A4030] mt-16 select-none">
-    <div class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p>© 2026 Rootword. MIT License. Contributions welcome.</p>
-      <a href="/" class="hover:text-[#8A7D5E] transition-colors">back to exploration</a>
-    </div>
-  </footer>
+                  {words.length > 0 ? (
+                    <div class="flex flex-wrap gap-2">
+                      {words.map((word) => (
+                        <a
+                          href={`/explore/${word}`}
+                          class="text-xs font-mono text-[#EDE0C4] hover:text-[#C4973A] bg-[#0E0D0A] hover:bg-[#131210] border border-[#2E2B22] hover:border-[#C4973A] rounded px-2.5 py-1.5 transition-aesthetic block"
+                        >
+                          {word}
+                        </a>
+                      ))}
+                    </div>
+                  ) : (
+                    <p class="text-xs font-mono text-[#4A4030] italic">
+                      No seed words currently indexed under this branch.
+                    </p>
+                  )}
+                </div>
+              </div>
+            );
+          })
+        }
+      </div>
+    </main>
 
-</body>
+    <footer
+      class="border-t border-[#181614] py-8 text-center text-[10px] font-mono text-[#4A4030] mt-16 select-none"
+    >
+      <div
+        class="max-w-5xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4"
+      >
+        <p>© 2026 Rootword. MIT License. Contributions welcome.</p>
+        <a href="/" class="hover:text-[#8A7D5E] transition-colors">back to exploration</a>
+      </div>
+    </footer>
+  </body>
 </html>

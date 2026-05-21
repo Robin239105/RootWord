@@ -1,0 +1,40 @@
+{
+  "word": "clue",
+  "ipa": "/.../",
+  "partOfSpeech": "noun",
+  "definition": "A strand of yarn etc. as used to guide one through a labyrinth; something which points the way, a guide.",
+  "firstAttestedCentury": "Attested historically",
+  "rootDepth": 3,
+  "languagePath": ["proto-indo-european", "latin", "english"],
+  "tree": {
+    "id": "clue-en",
+    "word": "clue",
+    "language": "english",
+    "era": "Modern English",
+    "meaning": "current form and definition",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "clueus-latin-0-1v6g",
+        "word": "*clueus",
+        "language": "latin",
+        "era": "Classical Latin",
+        "meaning": "attested ancestral form",
+        "isReconstructed": false,
+        "children": [
+          {
+            "id": "clue-proto-indo-european-1-6nm9",
+            "word": "*clue-",
+            "language": "proto-indo-european",
+            "era": "Proto-Indo-European ✶",
+            "meaning": "ancestral root",
+            "isReconstructed": true,
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "cognates": ["clew", "labyrinth", "thread"],
+  "contributors": ["seed-curator-bot", "wiktionary-api"]
+}

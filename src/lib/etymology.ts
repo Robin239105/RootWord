@@ -8,9 +8,14 @@ const seeds = import.meta.glob('../data/seeds/*.json', { eager: true });
 function mapWiktionaryLang(langCode: string, langName: string): LanguageFamily {
   const code = langCode.toLowerCase().trim();
   const name = langName.toLowerCase().trim();
-  if (code === 'en' || (name.includes('english') && !name.includes('old') && !name.includes('middle'))) return 'english';
+  if (
+    code === 'en' ||
+    (name.includes('english') && !name.includes('old') && !name.includes('middle'))
+  )
+    return 'english';
   if (code === 'enm' || name.includes('middle english')) return 'middle-english';
-  if (code === 'ang' || name.includes('old english') || name.includes('anglo-saxon')) return 'old-english';
+  if (code === 'ang' || name.includes('old english') || name.includes('anglo-saxon'))
+    return 'old-english';
   if (code === 'fro' || name.includes('old french')) return 'old-french';
   if (code === 'la' || name === 'latin' || name.includes('classical latin')) return 'latin';
   if (code === 'grc' || name.includes('ancient greek')) return 'ancient-greek';
@@ -36,7 +41,10 @@ function parseWiktionaryNode(node: any, depth: number = 0): EtymNode {
 
   let word = node.alt || node.term || 'unknown';
   // Strip asterisk from the beginning of reconstructed words
-  const isReconstructed = node.status === 'reconstructed' || word.startsWith('*') || langName.toLowerCase().includes('proto');
+  const isReconstructed =
+    node.status === 'reconstructed' ||
+    word.startsWith('*') ||
+    langName.toLowerCase().includes('proto');
   if (isReconstructed && word.startsWith('*')) {
     word = word.slice(1);
   }
@@ -86,7 +94,9 @@ export async function fetchWordData(word: string): Promise<WordData | null> {
     const defUrl = `https://en.wiktionary.org/api/rest_v1/page/definition/${encodeURIComponent(word)}`;
     console.log(`[etymology.ts] Fetching definition from: ${defUrl}`);
     try {
-      const defRes = await fetch(defUrl, { headers: { 'User-Agent': 'Rootword/1.0 (https://rootword.dev; info@rootword.dev)' } });
+      const defRes = await fetch(defUrl, {
+        headers: { 'User-Agent': 'Rootword/1.0 (https://rootword.dev; info@rootword.dev)' },
+      });
       console.log(`[etymology.ts] Definition response status: ${defRes.status}`);
       if (defRes.ok) {
         const defJson: any = await defRes.json();
@@ -109,7 +119,9 @@ export async function fetchWordData(word: string): Promise<WordData | null> {
     // B. Fetch parsed HTML to get etymology structure and IPA pronunciation
     const parseUrl = `https://en.wiktionary.org/w/api.php?action=parse&format=json&page=${encodeURIComponent(word)}&prop=text&utf8=1`;
     console.log(`[etymology.ts] Fetching parse HTML from: ${parseUrl}`);
-    const parseRes = await fetch(parseUrl, { headers: { 'User-Agent': 'Rootword/1.0 (https://rootword.dev; info@rootword.dev)' } });
+    const parseRes = await fetch(parseUrl, {
+      headers: { 'User-Agent': 'Rootword/1.0 (https://rootword.dev; info@rootword.dev)' },
+    });
     console.log(`[etymology.ts] Parse response status: ${parseRes.status}`);
 
     if (!parseRes.ok) {
@@ -136,155 +148,161 @@ export async function fetchWordData(word: string): Promise<WordData | null> {
     if (parseJson.parse && parseJson.parse.text) {
       const htmlText = parseJson.parse.text['*'] || '';
 
-        // Extract IPA
-        const ipaMatch = htmlText.match(/<span class="IPA">([^<]+)<\/span>/);
-        if (ipaMatch) {
-          ipa = ipaMatch[1];
-        }
+      // Extract IPA
+      const ipaMatch = htmlText.match(/<span class="IPA">([^<]+)<\/span>/);
+      if (ipaMatch) {
+        ipa = ipaMatch[1];
+      }
 
-        // Try extracting structured etymology tree from native data attribute
-        const etyMatch = htmlText.match(/data-ety-tree-json="([^"]+)"/) || htmlText.match(/data-ety-tree-json='([^']+)'/);
-        if (etyMatch) {
-          // Decode HTML entities
-          const decodedJson = etyMatch[1]
-            .replace(/&amp;quot;/g, '"')
-            .replace(/&quot;/g, '"')
-            .replace(/&#123;/g, '{')
-            .replace(/&#125;/g, '}')
-            .replace(/&#91;/g, '[')
-            .replace(/&#93;/g, ']')
-            .replace(/&#39;/g, "'")
-            .replace(/&#95;/g, '_')
-            .replace(/&#42;/g, '*')
-            .replace(/&#43;/g, '+')
-            .replace(/&lt;/g, '<')
-            .replace(/&gt;/g, '>')
-            .replace(/&amp;/g, '&');
+      // Try extracting structured etymology tree from native data attribute
+      const etyMatch =
+        htmlText.match(/data-ety-tree-json="([^"]+)"/) ||
+        htmlText.match(/data-ety-tree-json='([^']+)'/);
+      if (etyMatch) {
+        // Decode HTML entities
+        const decodedJson = etyMatch[1]
+          .replace(/&amp;quot;/g, '"')
+          .replace(/&quot;/g, '"')
+          .replace(/&#123;/g, '{')
+          .replace(/&#125;/g, '}')
+          .replace(/&#91;/g, '[')
+          .replace(/&#93;/g, ']')
+          .replace(/&#39;/g, "'")
+          .replace(/&#95;/g, '_')
+          .replace(/&#42;/g, '*')
+          .replace(/&#43;/g, '+')
+          .replace(/&lt;/g, '<')
+          .replace(/&gt;/g, '>')
+          .replace(/&amp;/g, '&');
 
-          try {
-            const rawTree = JSON.parse(decodedJson);
-            tree = parseWiktionaryNode(rawTree);
-            
-            // Extract language path recursively
-            const pathSet = new Set<LanguageFamily>();
-            function extractPath(node: EtymNode) {
-              if (node.language) pathSet.add(node.language);
-              if (node.children) node.children.forEach(extractPath);
-            }
-            extractPath(tree);
-            languagePath = Array.from(pathSet).reverse(); // oldest first
-            if (!languagePath.includes('english')) {
-              languagePath.push('english');
-            }
-          } catch (e) {
-            console.error('Error parsing Wiktionary data-ety-tree-json:', e);
+        try {
+          const rawTree = JSON.parse(decodedJson);
+          tree = parseWiktionaryNode(rawTree);
+
+          // Extract language path recursively
+          const pathSet = new Set<LanguageFamily>();
+          function extractPath(node: EtymNode) {
+            if (node.language) pathSet.add(node.language);
+            if (node.children) node.children.forEach(extractPath);
           }
-        }
-
-        // Fallback: If no structured tree was found, use a narrative-heuristic parser
-        if (!tree) {
-          const summaryText = htmlText.toLowerCase();
-          const children: EtymNode[] = [];
-
-          if (summaryText.includes('latin') || summaryText.includes('roman')) {
-            languagePath.push('latin');
-            children.push({
-              id: `${normalized}-la`,
-              word: `*${normalized}us`,
-              language: 'latin',
-              era: 'Classical Latin',
-              meaning: 'attested ancestral form',
-              isReconstructed: false,
-              children: [
-                {
-                  id: `${normalized}-pie`,
-                  word: `*${normalized}-`,
-                  language: 'proto-indo-european',
-                  meaning: 'ancestral root',
-                  isReconstructed: true,
-                  children: [],
-                },
-              ],
-            });
-            languagePath.push('proto-indo-european');
-          } else if (summaryText.includes('greek') || summaryText.includes('hellenic')) {
-            languagePath.push('ancient-greek');
-            children.push({
-              id: `${normalized}-gk`,
-              word: normalized,
-              language: 'ancient-greek',
-              era: 'Ancient Greek',
-              meaning: 'ancient greek origin',
-              isReconstructed: false,
-              children: [
-                {
-                  id: `${normalized}-pgk`,
-                  word: `*${normalized}`,
-                  language: 'proto-greek',
-                  meaning: 'reconstructed Hellenic root',
-                  isReconstructed: true,
-                  children: [],
-                },
-              ],
-            });
-            languagePath.push('proto-greek');
-          } else if (summaryText.includes('french') || summaryText.includes('norman')) {
-            languagePath.push('old-french');
-            children.push({
-              id: `${normalized}-of`,
-              word: normalized,
-              language: 'old-french',
-              era: 'Old French',
-              meaning: 'Anglo-Norman transition form',
-              isReconstructed: false,
-              children: [
-                {
-                  id: `${normalized}-la`,
-                  word: normalized,
-                  language: 'latin',
-                  meaning: 'classical root',
-                  isReconstructed: false,
-                  children: [],
-                },
-              ],
-            });
-            languagePath.push('latin');
-          } else if (summaryText.includes('germanic') || summaryText.includes('german') || summaryText.includes('norse')) {
-            languagePath.push('proto-germanic');
-            children.push({
-              id: `${normalized}-pg`,
-              word: `*${normalized}`,
-              language: 'proto-germanic',
-              meaning: 'reconstructed West Germanic form',
-              isReconstructed: true,
-              children: [],
-            });
-          } else {
-            languagePath.push('unknown');
-            children.push({
-              id: `${normalized}-anc`,
-              word: `*${normalized}`,
-              language: 'unknown',
-              meaning: 'ancestral source root',
-              isReconstructed: true,
-              children: [],
-            });
+          extractPath(tree);
+          languagePath = Array.from(pathSet).reverse(); // oldest first
+          if (!languagePath.includes('english')) {
+            languagePath.push('english');
           }
-
-          languagePath.reverse();
-          languagePath.push('english');
-
-          tree = {
-            id: `${normalized}-en`,
-            word: word,
-            language: 'english',
-            era: 'Modern English',
-            meaning: 'current form and definition',
-            isReconstructed: false,
-            children: children,
-          };
+        } catch (e) {
+          console.error('Error parsing Wiktionary data-ety-tree-json:', e);
         }
       }
+
+      // Fallback: If no structured tree was found, use a narrative-heuristic parser
+      if (!tree) {
+        const summaryText = htmlText.toLowerCase();
+        const children: EtymNode[] = [];
+
+        if (summaryText.includes('latin') || summaryText.includes('roman')) {
+          languagePath.push('latin');
+          children.push({
+            id: `${normalized}-la`,
+            word: `*${normalized}us`,
+            language: 'latin',
+            era: 'Classical Latin',
+            meaning: 'attested ancestral form',
+            isReconstructed: false,
+            children: [
+              {
+                id: `${normalized}-pie`,
+                word: `*${normalized}-`,
+                language: 'proto-indo-european',
+                meaning: 'ancestral root',
+                isReconstructed: true,
+                children: [],
+              },
+            ],
+          });
+          languagePath.push('proto-indo-european');
+        } else if (summaryText.includes('greek') || summaryText.includes('hellenic')) {
+          languagePath.push('ancient-greek');
+          children.push({
+            id: `${normalized}-gk`,
+            word: normalized,
+            language: 'ancient-greek',
+            era: 'Ancient Greek',
+            meaning: 'ancient greek origin',
+            isReconstructed: false,
+            children: [
+              {
+                id: `${normalized}-pgk`,
+                word: `*${normalized}`,
+                language: 'proto-greek',
+                meaning: 'reconstructed Hellenic root',
+                isReconstructed: true,
+                children: [],
+              },
+            ],
+          });
+          languagePath.push('proto-greek');
+        } else if (summaryText.includes('french') || summaryText.includes('norman')) {
+          languagePath.push('old-french');
+          children.push({
+            id: `${normalized}-of`,
+            word: normalized,
+            language: 'old-french',
+            era: 'Old French',
+            meaning: 'Anglo-Norman transition form',
+            isReconstructed: false,
+            children: [
+              {
+                id: `${normalized}-la`,
+                word: normalized,
+                language: 'latin',
+                meaning: 'classical root',
+                isReconstructed: false,
+                children: [],
+              },
+            ],
+          });
+          languagePath.push('latin');
+        } else if (
+          summaryText.includes('germanic') ||
+          summaryText.includes('german') ||
+          summaryText.includes('norse')
+        ) {
+          languagePath.push('proto-germanic');
+          children.push({
+            id: `${normalized}-pg`,
+            word: `*${normalized}`,
+            language: 'proto-germanic',
+            meaning: 'reconstructed West Germanic form',
+            isReconstructed: true,
+            children: [],
+          });
+        } else {
+          languagePath.push('unknown');
+          children.push({
+            id: `${normalized}-anc`,
+            word: `*${normalized}`,
+            language: 'unknown',
+            meaning: 'ancestral source root',
+            isReconstructed: true,
+            children: [],
+          });
+        }
+
+        languagePath.reverse();
+        languagePath.push('english');
+
+        tree = {
+          id: `${normalized}-en`,
+          word: word,
+          language: 'english',
+          era: 'Modern English',
+          meaning: 'current form and definition',
+          isReconstructed: false,
+          children: children,
+        };
+      }
+    }
 
     // Default tree construction if action parse API completely failed but definition succeeded
     if (!tree) {

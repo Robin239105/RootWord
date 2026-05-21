@@ -1,0 +1,60 @@
+{
+  "word": "candidate",
+  "ipa": "/ˈkæn.dɪ.deɪt/",
+  "partOfSpeech": "noun",
+  "definition": "A person who applies for a job or is nominated for election. Historically meaning 'clad in white' in Rome.",
+  "firstAttestedCentury": "17th century",
+  "rootDepth": 3,
+  "languagePath": ["proto-indo-european", "latin", "english"],
+  "tree": {
+    "id": "candidate-en",
+    "word": "candidate",
+    "language": "english",
+    "era": "17th century CE",
+    "meaning": "person standing for office",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "candidatus-la",
+        "word": "candīdātus",
+        "language": "latin",
+        "era": "Classical Latin",
+        "meaning": "one clad in white (toga)",
+        "isReconstructed": false,
+        "children": [
+          {
+            "id": "candidus-la",
+            "word": "candidus",
+            "language": "latin",
+            "era": "Classical Latin",
+            "meaning": "dazzling white, clear, sincere",
+            "isReconstructed": false,
+            "children": [
+              {
+                "id": "candeo-la",
+                "word": "candeō",
+                "language": "latin",
+                "era": "Classical Latin",
+                "meaning": "to shine, glow, be white",
+                "isReconstructed": false,
+                "children": [
+                  {
+                    "id": "kand-pie",
+                    "word": "*kand-",
+                    "language": "proto-indo-european",
+                    "era": "Proto-Indo-European ✶",
+                    "meaning": "to glow, shine, white",
+                    "isReconstructed": true,
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "cognates": ["candid", "candle", "candor", "incandescent"],
+  "contributors": ["seed-curator-bot", "wiktionary-api"]
+}

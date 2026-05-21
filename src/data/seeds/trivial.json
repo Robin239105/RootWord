@@ -1,0 +1,89 @@
+{
+  "word": "trivial",
+  "ipa": "/ˈtrɪv.i.əl/",
+  "partOfSpeech": "adjective",
+  "definition": "Of little value or importance. Historically referring to the 'trivium' (the three basic liberal arts) or 'three crossroads' (commonplace).",
+  "firstAttestedCentury": "15th century",
+  "rootDepth": 4,
+  "languagePath": ["proto-indo-european", "latin", "old-french", "english"],
+  "tree": {
+    "id": "trivial-en",
+    "word": "trivial",
+    "language": "english",
+    "era": "15th century CE",
+    "meaning": "commonplace, of little importance",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "trivial-of",
+        "word": "trivial",
+        "language": "old-french",
+        "era": "Middle French",
+        "meaning": "common, ordinary, classical trivium",
+        "isReconstructed": false,
+        "children": [
+          {
+            "id": "trivialis-la",
+            "word": "triviālis",
+            "language": "latin",
+            "era": "Classical Latin",
+            "meaning": "of the crossroads, commonplace, vulgar",
+            "isReconstructed": false,
+            "children": [
+              {
+                "id": "trivium-la",
+                "word": "trivium",
+                "language": "latin",
+                "era": "Classical Latin",
+                "meaning": "crossroads, where three roads meet",
+                "isReconstructed": false,
+                "children": [
+                  {
+                    "id": "tri-la",
+                    "word": "tri-",
+                    "language": "latin",
+                    "era": "Classical Latin",
+                    "meaning": "three",
+                    "isReconstructed": false,
+                    "children": [
+                      {
+                        "id": "treyes-pie",
+                        "word": "*tréyes",
+                        "language": "proto-indo-european",
+                        "era": "Proto-Indo-European ✶",
+                        "meaning": "three",
+                        "isReconstructed": true,
+                        "children": []
+                      }
+                    ]
+                  },
+                  {
+                    "id": "via-la",
+                    "word": "via",
+                    "language": "latin",
+                    "era": "Classical Latin",
+                    "meaning": "way, road, path",
+                    "isReconstructed": false,
+                    "children": [
+                      {
+                        "id": "weyh-pie",
+                        "word": "*weyh₁-",
+                        "language": "proto-indo-european",
+                        "era": "Proto-Indo-European ✶",
+                        "meaning": "to chase, pursue, route",
+                        "isReconstructed": true,
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "cognates": ["trivium", "viaduct", "deviate", "obvious", "trivia"],
+  "contributors": ["seed-curator-bot", "wiktionary-api"]
+}

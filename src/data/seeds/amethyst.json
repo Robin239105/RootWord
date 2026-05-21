@@ -1,0 +1,79 @@
+{
+  "word": "amethyst",
+  "ipa": "/ˈæm.ə.θɪst/",
+  "partOfSpeech": "noun",
+  "definition": "A purple semi-precious stone, a variety of quartz. Historically believed to prevent intoxication.",
+  "firstAttestedCentury": "13th century",
+  "rootDepth": 4,
+  "languagePath": ["proto-indo-european", "ancient-greek", "latin", "old-french", "english"],
+  "tree": {
+    "id": "amethyst-en",
+    "word": "amethyst",
+    "language": "english",
+    "era": "13th century CE",
+    "meaning": "purple precious stone",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "ameteyste-of",
+        "word": "ameteyste",
+        "language": "old-french",
+        "era": "Old French",
+        "meaning": "amethyst",
+        "isReconstructed": false,
+        "children": [
+          {
+            "id": "amethystus-la",
+            "word": "amethystus",
+            "language": "latin",
+            "era": "Classical Latin",
+            "meaning": "amethyst",
+            "isReconstructed": false,
+            "children": [
+              {
+                "id": "amethystos-grc",
+                "word": "améthystos",
+                "language": "ancient-greek",
+                "era": "Ancient Greek",
+                "meaning": "not intoxicated (remedy against drunkenness)",
+                "isReconstructed": false,
+                "children": [
+                  {
+                    "id": "a-grc",
+                    "word": "a-",
+                    "language": "ancient-greek",
+                    "era": "Ancient Greek",
+                    "meaning": "not, un- (alpha privative)",
+                    "isReconstructed": false,
+                    "children": []
+                  },
+                  {
+                    "id": "methysko-grc",
+                    "word": "methýskō",
+                    "language": "ancient-greek",
+                    "era": "Ancient Greek",
+                    "meaning": "make drunk, intoxicate",
+                    "isReconstructed": false,
+                    "children": [
+                      {
+                        "id": "methy-pie",
+                        "word": "*médʰu",
+                        "language": "proto-indo-european",
+                        "era": "Proto-Indo-European ✶",
+                        "meaning": "honey, mead",
+                        "isReconstructed": true,
+                        "children": []
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "cognates": ["mead", "methyl", "sobriety", "methane"],
+  "contributors": ["seed-curator-bot", "wiktionary-api"]
+}

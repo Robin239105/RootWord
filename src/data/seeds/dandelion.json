@@ -1,0 +1,40 @@
+{
+  "word": "dandelion",
+  "ipa": "/.../",
+  "partOfSpeech": "noun",
+  "definition": "Any of the several species of plant in the genus Taraxacum, characterised by yellow flower heads and notched, broad-ended leaves, especially the common dandelion (Taraxacum officinale).",
+  "firstAttestedCentury": "Attested historically",
+  "rootDepth": 3,
+  "languagePath": ["proto-indo-european", "latin", "english"],
+  "tree": {
+    "id": "dandelion-en",
+    "word": "dandelion",
+    "language": "english",
+    "era": "Modern English",
+    "meaning": "current form and definition",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "dandelionus-latin-0-maqu",
+        "word": "*dandelionus",
+        "language": "latin",
+        "era": "Classical Latin",
+        "meaning": "attested ancestral form",
+        "isReconstructed": false,
+        "children": [
+          {
+            "id": "dandelion-proto-indo-european-1-lrqb",
+            "word": "*dandelion-",
+            "language": "proto-indo-european",
+            "era": "Proto-Indo-European ✶",
+            "meaning": "ancestral root",
+            "isReconstructed": true,
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "cognates": ["dentist", "dental", "lion"],
+  "contributors": ["seed-curator-bot", "wiktionary-api"]
+}

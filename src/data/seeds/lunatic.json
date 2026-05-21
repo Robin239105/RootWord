@@ -1,0 +1,40 @@
+{
+  "word": "lunatic",
+  "ipa": "/.../",
+  "partOfSpeech": "noun",
+  "definition": "An insane person.",
+  "firstAttestedCentury": "Attested historically",
+  "rootDepth": 3,
+  "languagePath": ["proto-indo-european", "latin", "english"],
+  "tree": {
+    "id": "lunatic-en",
+    "word": "lunatic",
+    "language": "english",
+    "era": "Modern English",
+    "meaning": "current form and definition",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "lunaticus-latin-0-7vuz",
+        "word": "*lunaticus",
+        "language": "latin",
+        "era": "Classical Latin",
+        "meaning": "attested ancestral form",
+        "isReconstructed": false,
+        "children": [
+          {
+            "id": "lunatic-proto-indo-european-1-qx9x",
+            "word": "*lunatic-",
+            "language": "proto-indo-european",
+            "era": "Proto-Indo-European ✶",
+            "meaning": "ancestral root",
+            "isReconstructed": true,
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "cognates": ["lunar", "sublunary", "lunacy"],
+  "contributors": ["seed-curator-bot", "wiktionary-api"]
+}

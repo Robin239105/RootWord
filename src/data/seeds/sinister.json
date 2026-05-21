@@ -1,0 +1,97 @@
+{
+  "word": "sinister",
+  "ipa": "/.../",
+  "partOfSpeech": "adjective",
+  "definition": "Inauspicious, ominous, unlucky, illegitimate.",
+  "firstAttestedCentury": "Attested historically",
+  "rootDepth": 6,
+  "languagePath": [
+    "proto-indo-european",
+    "latin",
+    "unknown",
+    "old-french",
+    "middle-english",
+    "english"
+  ],
+  "tree": {
+    "id": "sinister-english-0-x9es",
+    "word": "sinister",
+    "language": "english",
+    "era": "English",
+    "meaning": "attested ancestral form",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "sinistre-middle-english-1-4sfx",
+        "word": "sinistre",
+        "language": "middle-english",
+        "era": "Middle English",
+        "meaning": "attested ancestral form",
+        "isReconstructed": false,
+        "children": [
+          {
+            "id": "senestre-old-french-2-edjw",
+            "word": "senestre",
+            "language": "old-french",
+            "era": "Old French",
+            "meaning": "attested ancestral form",
+            "isReconstructed": false,
+            "children": [
+              {
+                "id": "sinextrum-unknown-3-cfyy",
+                "word": "sinextrum",
+                "language": "unknown",
+                "era": "Late Latin",
+                "meaning": "attested ancestral form",
+                "isReconstructed": false,
+                "children": [
+                  {
+                    "id": "sinister-latin-4-lhqe",
+                    "word": "sinister",
+                    "language": "latin",
+                    "era": "Latin",
+                    "meaning": "attested ancestral form",
+                    "isReconstructed": false,
+                    "children": [
+                      {
+                        "id": "senisteros-proto-indo-european-5-f4or",
+                        "word": "*senisteros",
+                        "language": "proto-indo-european",
+                        "era": "Proto-Italic",
+                        "meaning": "reconstructed ancestral root",
+                        "isReconstructed": true,
+                        "children": [
+                          {
+                            "id": "senhis-proto-indo-european-6-8id5",
+                            "word": "*senh₂-is-",
+                            "language": "proto-indo-european",
+                            "era": "Proto-Indo-European",
+                            "meaning": "reconstructed ancestral root",
+                            "isReconstructed": true,
+                            "children": [
+                              {
+                                "id": "senh-proto-indo-european-7-3jxt",
+                                "word": "*senh₂-",
+                                "language": "proto-indo-european",
+                                "era": "Proto-Indo-European",
+                                "meaning": "reconstructed ancestral root",
+                                "isReconstructed": true,
+                                "children": []
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "cognates": ["leftist", "sinistral"],
+  "contributors": ["seed-curator-bot", "wiktionary-api"]
+}

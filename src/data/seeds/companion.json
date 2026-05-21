@@ -1,0 +1,30 @@
+{
+  "word": "companion",
+  "ipa": "/.../",
+  "partOfSpeech": "noun",
+  "definition": "A friend, acquaintance, or partner; someone with whom one spends time or accompanies",
+  "firstAttestedCentury": "Attested historically",
+  "rootDepth": 2,
+  "languagePath": ["latin", "english"],
+  "tree": {
+    "id": "companion-en",
+    "word": "companion",
+    "language": "english",
+    "era": "Modern English",
+    "meaning": "current form and definition",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "compnin-latin-0-wqbj",
+        "word": "compāniōn-",
+        "language": "latin",
+        "era": "Classical Latin",
+        "meaning": "attested ancestral form",
+        "isReconstructed": false,
+        "children": []
+      }
+    ]
+  },
+  "cognates": ["company", "pannier", "pantry"],
+  "contributors": ["seed-curator-bot", "wiktionary-api"]
+}

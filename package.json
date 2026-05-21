@@ -10,7 +10,9 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "validate:seeds": "node scripts/validate-seeds.js"
+    "validate:seeds": "node scripts/validate-seeds.js",
+    "format": "prettier --write \"src/**/*.{astro,ts,tsx,css,json}\" \"scripts/**/*.js\"",
+    "format:check": "prettier --check \"src/**/*.{astro,ts,tsx,css,json}\" \"scripts/**/*.js\""
   },
   "dependencies": {
     "@astrojs/node": "^10.1.1",
@@ -25,6 +27,8 @@
     "tailwindcss": "^4.3.0"
   },
   "devDependencies": {
-    "@types/d3": "^7.4.3"
+    "@types/d3": "^7.4.3",
+    "prettier": "^3.8.3",
+    "prettier-plugin-astro": "^0.14.1"
   }
 }

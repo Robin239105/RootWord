@@ -5,7 +5,13 @@
   "definition": "An opening in the wall or roof of a building or vehicle for admitting light or air.",
   "firstAttestedCentury": "13th century",
   "rootDepth": 4,
-  "languagePath": ["proto-indo-european", "proto-germanic", "old-norse", "middle-english", "english"],
+  "languagePath": [
+    "proto-indo-european",
+    "proto-germanic",
+    "old-norse",
+    "middle-english",
+    "english"
+  ],
   "cognates": ["wind", "eye", "ocular", "ventilate", "windowpane"],
   "tree": {
     "id": "window-en",

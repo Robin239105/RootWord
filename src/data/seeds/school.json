@@ -1,0 +1,40 @@
+{
+  "word": "school",
+  "ipa": "/.../",
+  "partOfSpeech": "noun",
+  "definition": "An institution dedicated to teaching and learning; an educational institution.",
+  "firstAttestedCentury": "Attested historically",
+  "rootDepth": 3,
+  "languagePath": ["proto-indo-european", "latin", "english"],
+  "tree": {
+    "id": "school-en",
+    "word": "school",
+    "language": "english",
+    "era": "Modern English",
+    "meaning": "current form and definition",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "schoolus-latin-0-3izk",
+        "word": "*schoolus",
+        "language": "latin",
+        "era": "Classical Latin",
+        "meaning": "attested ancestral form",
+        "isReconstructed": false,
+        "children": [
+          {
+            "id": "school-proto-indo-european-1-urk6",
+            "word": "*school-",
+            "language": "proto-indo-european",
+            "era": "Proto-Indo-European ✶",
+            "meaning": "ancestral root",
+            "isReconstructed": true,
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "cognates": ["scholar", "scholastic", "leisure"],
+  "contributors": ["seed-curator-bot", "wiktionary-api"]
+}

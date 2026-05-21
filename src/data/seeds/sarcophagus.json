@@ -1,0 +1,40 @@
+{
+  "word": "sarcophagus",
+  "ipa": "/.../",
+  "partOfSpeech": "noun",
+  "definition": "A stone coffin, often with its exterior inscribed, or decorated with sculpture.",
+  "firstAttestedCentury": "Attested historically",
+  "rootDepth": 3,
+  "languagePath": ["proto-indo-european", "latin", "english"],
+  "tree": {
+    "id": "sarcophagus-en",
+    "word": "sarcophagus",
+    "language": "english",
+    "era": "Modern English",
+    "meaning": "current form and definition",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "sarcophagusus-latin-0-cejv",
+        "word": "*sarcophagusus",
+        "language": "latin",
+        "era": "Classical Latin",
+        "meaning": "attested ancestral form",
+        "isReconstructed": false,
+        "children": [
+          {
+            "id": "sarcophagus-proto-indo-european-1-elng",
+            "word": "*sarcophagus-",
+            "language": "proto-indo-european",
+            "era": "Proto-Indo-European ✶",
+            "meaning": "ancestral root",
+            "isReconstructed": true,
+            "children": []
+          }
+        ]
+      }
+    ]
+  },
+  "cognates": ["sarcasm", "esophagus", "sarcopenic"],
+  "contributors": ["seed-curator-bot", "wiktionary-api"]
+}

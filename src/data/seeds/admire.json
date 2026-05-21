@@ -1,0 +1,99 @@
+{
+  "word": "admire",
+  "ipa": "/ədˈmaɪər/",
+  "partOfSpeech": "verb",
+  "definition": "To regard with respect, warm approval, or wonder; historically, to marvel at.",
+  "firstAttestedCentury": "16th century",
+  "rootDepth": 5,
+  "languagePath": ["proto-indo-european", "latin", "old-french", "english"],
+  "tree": {
+    "id": "admire-en",
+    "word": "admire",
+    "language": "english",
+    "era": "16th century CE",
+    "meaning": "regard with wonder or approval",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "admirer-of",
+        "word": "admirer",
+        "language": "old-french",
+        "era": "Old French",
+        "meaning": "to marvel at, admire",
+        "isReconstructed": false,
+        "children": [
+          {
+            "id": "admiror-la",
+            "word": "admīror",
+            "language": "latin",
+            "era": "Classical Latin",
+            "meaning": "marvel at, look at with wonder",
+            "isReconstructed": false,
+            "children": [
+              {
+                "id": "ad-la",
+                "word": "ad-",
+                "language": "latin",
+                "era": "Classical Latin",
+                "meaning": "to, towards",
+                "isReconstructed": false,
+                "children": [
+                  {
+                    "id": "ad-pie",
+                    "word": "*ad",
+                    "language": "proto-indo-european",
+                    "era": "Proto-Indo-European ✶",
+                    "meaning": "at, near, to",
+                    "isReconstructed": true,
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "id": "miror-la",
+                "word": "mīror",
+                "language": "latin",
+                "era": "Classical Latin",
+                "meaning": "wonder at",
+                "isReconstructed": false,
+                "children": [
+                  {
+                    "id": "mirus-la",
+                    "word": "mīrus",
+                    "language": "latin",
+                    "era": "Classical Latin",
+                    "meaning": "wonderful, strange",
+                    "isReconstructed": false,
+                    "children": [
+                      {
+                        "id": "smeiros-pie",
+                        "word": "*sméyros",
+                        "language": "proto-indo-european",
+                        "era": "Proto-Indo-European ✶",
+                        "meaning": "smiling, laughing, amazing",
+                        "isReconstructed": true,
+                        "children": [
+                          {
+                            "id": "smey-pie",
+                            "word": "*smey-",
+                            "language": "proto-indo-european",
+                            "era": "Proto-Indo-European ✶",
+                            "meaning": "to laugh, smile",
+                            "isReconstructed": true,
+                            "children": []
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "cognates": ["miracle", "mirror", "mirage", "smile"],
+  "contributors": ["seed-curator-bot", "wiktionary-api"]
+}

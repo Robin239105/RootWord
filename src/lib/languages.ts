@@ -11,7 +11,7 @@ export interface LanguageDef {
 }
 
 export const LANGUAGE_DEFS: Record<LanguageFamily, LanguageDef> = {
-  'english': {
+  english: {
     name: 'Modern English',
     family: 'Germanic',
     fill: '#2A2310',
@@ -41,9 +41,10 @@ export const LANGUAGE_DEFS: Record<LanguageFamily, LanguageDef> = {
     fill: '#101A0E',
     stroke: '#4E8844',
     text: '#B8D8A0',
-    description: 'The Romance langue d\'oïl dialect continuum spoken from the 8th to 14th centuries.',
+    description:
+      "The Romance langue d'oïl dialect continuum spoken from the 8th to 14th centuries.",
   },
-  'latin': {
+  latin: {
     name: 'Classical Latin',
     family: 'Italic',
     fill: '#0E1A0C',
@@ -57,7 +58,8 @@ export const LANGUAGE_DEFS: Record<LanguageFamily, LanguageDef> = {
     fill: '#0E1A0C',
     stroke: '#3E7834',
     text: '#A8D898',
-    description: 'The form of Latin used in Roman Catholic liturgy, administration, and science during the Middle Ages.',
+    description:
+      'The form of Latin used in Roman Catholic liturgy, administration, and science during the Middle Ages.',
   },
   'ancient-greek': {
     name: 'Ancient Greek',
@@ -81,7 +83,8 @@ export const LANGUAGE_DEFS: Record<LanguageFamily, LanguageDef> = {
     fill: '#181408',
     stroke: '#706028',
     text: '#A89868',
-    description: 'The reconstructed common ancestor of all Germanic languages, spoken in northern Europe.',
+    description:
+      'The reconstructed common ancestor of all Germanic languages, spoken in northern Europe.',
   },
   'proto-indo-european': {
     name: 'Proto-Indo-European ✶',
@@ -91,13 +94,14 @@ export const LANGUAGE_DEFS: Record<LanguageFamily, LanguageDef> = {
     text: '#C88868',
     description: 'The reconstructed common ancestor of all Indo-European language families.',
   },
-  'arabic': {
+  arabic: {
     name: 'Arabic',
     family: 'Semitic',
     fill: '#140E1C',
     stroke: '#6A3E9A',
     text: '#C0A0E0',
-    description: 'A Semitic language originating from the Arabian Peninsula, heavily influencing European science and philosophy.',
+    description:
+      'A Semitic language originating from the Arabian Peninsula, heavily influencing European science and philosophy.',
   },
   'old-norse': {
     name: 'Old Norse',
@@ -105,9 +109,10 @@ export const LANGUAGE_DEFS: Record<LanguageFamily, LanguageDef> = {
     fill: '#0C1410',
     stroke: '#2E6840',
     text: '#90C8A8',
-    description: 'A North Germanic language spoken by inhabitants of Scandinavia and their overseas settlements.',
+    description:
+      'A North Germanic language spoken by inhabitants of Scandinavia and their overseas settlements.',
   },
-  'unknown': {
+  unknown: {
     name: 'Pre-historic / Unknown',
     family: 'Unknown',
     fill: '#181818',

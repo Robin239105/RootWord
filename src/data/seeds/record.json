@@ -1,0 +1,69 @@
+{
+  "word": "record",
+  "ipa": "/ˈrɛk.ərd/",
+  "partOfSpeech": "noun",
+  "definition": "An item of information or fact set down in writing or other permanent form. Historically meaning 'to commit to heart/memory'.",
+  "firstAttestedCentury": "13th century",
+  "rootDepth": 4,
+  "languagePath": ["proto-indo-european", "latin", "old-french", "english"],
+  "tree": {
+    "id": "record-en",
+    "word": "record",
+    "language": "english",
+    "era": "13th century CE",
+    "meaning": "set down in writing or print; to remember",
+    "isReconstructed": false,
+    "children": [
+      {
+        "id": "recorder-of",
+        "word": "recorder",
+        "language": "old-french",
+        "era": "Old French",
+        "meaning": "to repeat, recite, commit to memory",
+        "isReconstructed": false,
+        "children": [
+          {
+            "id": "recordor-la",
+            "word": "recordor",
+            "language": "latin",
+            "era": "Classical Latin",
+            "meaning": "call to mind, remember, recollect",
+            "isReconstructed": false,
+            "children": [
+              {
+                "id": "re-la",
+                "word": "re-",
+                "language": "latin",
+                "era": "Classical Latin",
+                "meaning": "again, back",
+                "isReconstructed": false,
+                "children": []
+              },
+              {
+                "id": "cor-la",
+                "word": "cor",
+                "language": "latin",
+                "era": "Classical Latin",
+                "meaning": "heart, mind, soul",
+                "isReconstructed": false,
+                "children": [
+                  {
+                    "id": "kerd-pie",
+                    "word": "*ḱērd-",
+                    "language": "proto-indo-european",
+                    "era": "Proto-Indo-European ✶",
+                    "meaning": "heart",
+                    "isReconstructed": true,
+                    "children": []
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "cognates": ["cordial", "courage", "concord", "cardiac"],
+  "contributors": ["seed-curator-bot", "wiktionary-api"]
+}

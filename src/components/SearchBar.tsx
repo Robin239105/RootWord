@@ -8,7 +8,11 @@ interface Props {
   className?: string;
 }
 
-export default function SearchBar({ placeholder = 'type any word...', initialValue = '', className = '' }: Props) {
+export default function SearchBar({
+  placeholder = 'type any word...',
+  initialValue = '',
+  className = '',
+}: Props) {
   const [query, setQuery] = useState(initialValue);
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(false);
@@ -27,7 +31,7 @@ export default function SearchBar({ placeholder = 'type any word...', initialVal
       return;
     }
     const val = query.toLowerCase().trim();
-    const filtered = seeds.filter(s => s.startsWith(val) && s !== val);
+    const filtered = seeds.filter((s) => s.startsWith(val) && s !== val);
     setSuggestions(filtered.slice(0, 5));
   }, [query, seeds]);
 
@@ -76,7 +80,7 @@ export default function SearchBar({ placeholder = 'type any word...', initialVal
         </button>
       </div>
 
-      {isOpen && (query.trim().length > 0) && (
+      {isOpen && query.trim().length > 0 && (
         <div className="absolute top-full left-0 right-0 mt-1 bg-[#1A1810] border border-[#2E2B22] rounded shadow-2xl z-50 overflow-hidden font-mono text-xs text-[#8A7D5E] parchment-glow">
           {/* Seeds Autocomplete Suggestions */}
           {suggestions.map((suggestion) => (
