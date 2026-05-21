@@ -2,7 +2,8 @@
 // src/components/Nav.astro
 import { getAllSeedWords } from '../lib/etymology';
 
-const seedCount = getAllSeedWords().length;
+const seeds = getAllSeedWords();
+const seedCount = seeds.length;
 ---
 
 <header
@@ -18,9 +19,14 @@ const seedCount = getAllSeedWords().length;
 
     <nav class="hidden md:flex items-center gap-5 text-xs font-mono text-[#8A7D5E]">
       <a href="/languages" class="hover:text-[#EDE0C4] transition-colors">languages</a>
-      <a href="/explore/philosophy" class="hover:text-[#EDE0C4] transition-colors"
-        >explore philosophy</a
+      <a
+        href="#"
+        id="random-seed-link"
+        class="hover:text-[#EDE0C4] transition-colors cursor-pointer"
+        data-seeds={JSON.stringify(seeds)}
       >
+        random seed
+      </a>
     </nav>
   </div>
 
@@ -42,3 +48,17 @@ const seedCount = getAllSeedWords().length;
     </a>
   </div>
 </header>
+
+<script>
+  const link = document.getElementById('random-seed-link');
+  if (link) {
+    link.addEventListener('click', (e) => {
+      e.preventDefault();
+      const seeds = JSON.parse(link.getAttribute('data-seeds') || '[]');
+      if (seeds.length > 0) {
+        const randomWord = seeds[Math.floor(Math.random() * seeds.length)];
+        window.location.href = `/explore/${randomWord}`;
+      }
+    });
+  }
+</script>
