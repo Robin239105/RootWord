@@ -271,10 +271,10 @@ export default function EtymologyTree({ data }: Props) {
   return (
     <div className="relative w-full h-full flex flex-col select-none">
       {/* Toolbar */}
-      <div className="absolute top-[-36px] right-0 flex gap-2">
+      <div className="absolute top-2 right-4 z-10 flex gap-2">
         <button
           onClick={handleExportSVG}
-          className="text-[11px] font-mono text-[#8A7D5E] hover:text-[#EDE0C4] border border-[#2E2B22] rounded-md px-2.5 py-1 bg-[#1A1810] hover:border-[#C4973A] transition-all duration-200 cursor-pointer"
+          className="text-[11px] font-mono text-[#8A7D5E] hover:text-[#EDE0C4] border border-[#2E2B22] rounded-md px-2.5 py-1 bg-[#1A1810]/95 backdrop-blur-sm hover:border-[#C4973A] transition-all duration-200 cursor-pointer shadow-lg"
         >
           export SVG
         </button>
