@@ -137,3 +137,10 @@ body {
   pointer-events: none;
   animation: floatDust 12s infinite linear;
 }
+
+/* Responsive mobile-hiding utility */
+@media (max-width: 767px) {
+  .hidden-mobile {
+    display: none !important;
+  }
+}

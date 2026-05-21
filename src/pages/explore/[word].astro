@@ -71,12 +71,33 @@ if (!data) {
 
         <!-- Tree Visualization Island -->
         <div
-          class="flex-1 flex items-center justify-start p-6 relative overflow-auto"
+          class="flex-1 flex items-center justify-start p-4 md:p-6 relative overflow-x-auto overflow-y-hidden md:overflow-y-auto"
           style="min-height: 540px;"
         >
           <EtymologyTree data={data} client:load />
         </div>
       </div>
+
+      <!-- Mobile-only Footer concluding the scroll view -->
+      <footer
+        class="w-full border-t border-[#181614] py-8 text-center text-[10px] font-mono text-[#4A4030] select-none md:hidden bg-[#0E0D0A] z-10"
+      >
+        <div class="px-6 flex flex-col gap-3">
+          <p>© 2026 Rootword. MIT License.</p>
+          <div class="flex justify-center gap-4">
+            <a href="/languages" class="hover:text-[#8A7D5E] transition-colors">language browser</a>
+            <span>•</span>
+            <a
+              href="https://github.com/Robin239105/RootWord"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="hover:text-[#8A7D5E] transition-colors"
+            >
+              github contributors
+            </a>
+          </div>
+        </div>
+      </footer>
     </main>
   </body>
 </html>

@@ -12,7 +12,7 @@ export default function NodeTooltip({ node, onClose }: Props) {
   const def = LANGUAGE_DEFS[node.language] ?? LANGUAGE_DEFS['unknown'];
 
   return (
-    <div className="absolute bottom-6 right-6 w-80 bg-[#1A1810] border border-[#2E2B22] shadow-2xl p-5 rounded font-mono text-xs text-[#8A7D5E] select-none z-40 parchment-glow flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
+    <div className="absolute bottom-4 left-4 right-4 w-auto md:w-80 md:left-auto md:right-6 md:bottom-6 bg-[#1A1810] border border-[#2E2B22] shadow-2xl p-5 rounded font-mono text-xs text-[#8A7D5E] select-none z-40 parchment-glow flex flex-col gap-4 animate-in fade-in slide-in-from-bottom-4 duration-300">
       {/* Header with Title and Close Button */}
       <div className="flex items-start justify-between">
         <div>

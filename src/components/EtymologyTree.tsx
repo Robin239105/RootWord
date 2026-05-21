@@ -283,15 +283,14 @@ export default function EtymologyTree({ data }: Props) {
       {/* Tree canvas */}
       <div
         ref={containerRef}
-        className="flex-1 w-full overflow-x-auto overflow-y-auto"
-        style={{ minHeight: `${SVG_HEIGHT}px` }}
+        className="flex-1 w-full overflow-x-auto overflow-y-hidden md:overflow-y-auto min-h-[520px]"
       >
         {error ? (
           <div className="flex items-center justify-center h-full text-sm font-mono text-[#8A3A28] p-8 text-center">
             <span>⚠ {error}</span>
           </div>
         ) : (
-          <svg ref={svgRef} style={{ display: 'block', minHeight: `${SVG_HEIGHT}px` }} />
+          <svg ref={svgRef} style={{ display: 'block' }} />
         )}
       </div>
 
