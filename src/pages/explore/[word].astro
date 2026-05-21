@@ -33,12 +33,14 @@ if (!data) {
   <body class="bg-[#0E0D0A] text-[#EDE0C4] h-screen flex flex-col overflow-hidden">
     <Nav />
 
-    <main class="flex flex-1 overflow-hidden">
+    <main class="flex flex-col md:flex-row flex-1 overflow-y-auto md:overflow-hidden">
       <!-- Info Sidebar Panel -->
       <WordPanel data={data} client:load />
 
       <!-- Visualization Canvas area -->
-      <div class="flex-1 flex flex-col border-l border-[#181614] bg-[#0E0D0A]">
+      <div
+        class="flex-1 flex flex-col border-t md:border-t-0 md:border-l border-[#181614] bg-[#0E0D0A]"
+      >
         <!-- Dynamic top tool menu -->
         <div
           class="h-10 border-b border-[#181614] flex items-center px-4 gap-3 bg-[#0E0D0A]/40 backdrop-blur select-none"

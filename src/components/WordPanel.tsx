@@ -13,7 +13,7 @@ export default function WordPanel({ data }: Props) {
   };
 
   return (
-    <aside className="w-80 h-full bg-[#1A1810] border-r border-[#2E2B22] p-6 flex flex-col overflow-y-auto parchment-glow select-none">
+    <aside className="w-full md:w-80 h-auto md:h-full shrink-0 bg-[#1A1810] border-b md:border-b-0 md:border-r border-[#2E2B22] p-6 flex flex-col overflow-y-auto parchment-glow select-none">
       {/* Title & Phonetics */}
       <div className="mb-6">
         <h1 className="text-3xl font-serif font-medium text-[#EDE0C4] tracking-wide mb-1.5 capitalize">
